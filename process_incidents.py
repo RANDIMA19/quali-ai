@@ -9,7 +9,7 @@ import pandas as pd
 
 # ── 1. Paths ──────────────────────────────────────────────────────────────────
 COMPOSITE_PATH = "data/raw/Composite_Mapping.xlsx"
-SF_PATH        = "data/raw/SF-Daily_Update.xlsx"
+SF_PATH        = "data/raw/SF-Daily Update.xlsx"
 OUTPUT_PATH    = "data/clean/incidents.csv"
 
 # ── 2. Read source files ──────────────────────────────────────────────────────

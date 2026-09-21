@@ -1,0 +1,48 @@
+{
+  "query": "Why is Loom 12 producing inconsistent elongation in Batch B102?",
+  "agent_outputs": {
+    "agent1_intake": {
+      "loom_id": "12",
+      "batch_id": "B102",
+      "metric": "elongation",
+      "defect_symptom": "inconsistent"
+    },
+    "agent2_anomaly": {
+      "note": "No production data provided, skipping anomaly detection"
+    },
+    "agent3_retrieval": [
+      {
+        "incident_id": "INC-0620",
+        "reason": "Low Repeat Length",
+        "action_plan": "Product should be developed",
+        "similarity_score": 0.3065524697303772
+      },
+      {
+        "incident_id": "INC-0283",
+        "reason": "Low Repeat Length",
+        "action_plan": "",
+        "similarity_score": 0.299350380897522
+      },
+      {
+        "incident_id": "INC-1622",
+        "reason": "Low Repeat Length",
+        "action_plan": "",
+        "similarity_score": 0.299350380897522
+      }
+    ],
+    "agent4_synthesis": {
+      "label": "AI-Assisted Diagnostic Recommendation",
+      "error": "HTTPSConnectionPool(host='api-inference.huggingface.co', port=443): Max retries exceeded with url: /models/mistralai/Mistral-7B-Instruct-v0.2 (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000002CCEAC4F380>: Failed to resolve 'api-inference.huggingface.co' ([Errno 11001] getaddrinfo failed)\"))",
+      "input_summary": {
+        "entities": {
+          "loom_id": "12",
+          "batch_id": "B102",
+          "metric": "elongation",
+          "defect_symptom": "inconsistent"
+        },
+        "anomaly_count": 0,
+        "historical_incidents_reviewed": 3
+      }
+    }
+  }
+}
