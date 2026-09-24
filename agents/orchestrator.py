@@ -14,7 +14,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from agents.agent1_intake import extract_entities
 from agents.agent2_anomaly import detect_anomalies, compute_correlations
 from agents.agent3_retrieval import retrieve
-from agents.agent4_synthesis import synthesize_diagnosis, format_diagnosis
+from agents.agent4_synthesis_mock import synthesize_diagnosis_mock as synthesize_diagnosis
+from agents.agent4_synthesis_mock import format_diagnosis
 
 
 def run_pipeline(query: str, production_df=None, metric_name: str = None, top_k: int = 3) -> dict:
