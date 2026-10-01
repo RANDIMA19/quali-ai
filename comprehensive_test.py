@@ -15,7 +15,8 @@ print("=" * 80)
 print("COMPREHENSIVE TEST SUITE - 60 TEST CASES")
 print("=" * 80)
 
-# ── AGENT 1: ENTITY EXTRACTION (15 TEST CASES) ───────────────────────────────────
+
+# AGENT 1: ENTITY EXTRACTION AND NLP PROCESSING
 print("\n" + "=" * 80)
 print("AGENT 1: ENTITY EXTRACTION - 15 TEST CASES")
 print("=" * 80)
@@ -62,7 +63,7 @@ for i, query in enumerate(agent1_tests, 1):
 
 print(f"\nAgent 1 Results: {sum(1 for _, _, status in agent1_results if status == 'PASS')}/15 passed")
 
-# ── AGENT 2: ANOMALY DETECTION (15 TEST CASES) ───────────────────────────────────
+# AGENT 2: ANOMALY DETECTION (15 TEST CASES)
 print("\n" + "=" * 80)
 print("AGENT 2: ANOMALY DETECTION - 15 TEST CASES")
 print("=" * 80)
@@ -155,7 +156,7 @@ for i, (test_name, data, metric, threshold, _) in enumerate(agent2_tests, 1):
 
 print(f"\nAgent 2 Results: {sum(1 for _, _, status in agent2_results if status == 'PASS')}/15 passed")
 
-# ── AGENT 3: RETRIEVAL (15 TEST CASES) ───────────────────────────────────────────
+# AGENT 3: HISTORICAL INCIDENT RETRIEVAL
 print("\n" + "=" * 80)
 print("AGENT 3: HISTORICAL INCIDENT RETRIEVAL - 15 TEST CASES")
 print("=" * 80)
@@ -199,7 +200,7 @@ for i, query in enumerate(agent3_tests, 1):
 
 print(f"\nAgent 3 Results: {sum(1 for _, _, status in agent3_results if status == 'PASS')}/15 passed")
 
-# ── AGENT 4: SYNTHESIS (15 TEST CASES) ───────────────────────────────────────────
+# AGENT 4: SYNTHESIS AND DIAGNOSIS 
 print("\n" + "=" * 80)
 print("AGENT 4: SYNTHESIS - 15 TEST CASES")
 print("=" * 80)
