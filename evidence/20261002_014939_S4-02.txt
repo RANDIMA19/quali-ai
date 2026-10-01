@@ -1,0 +1,47 @@
+Test ID: S4-02
+Title: No-similarity-threshold forced retrieval
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: Hallucination due to Retrieval
+
+Objective:
+Confirm that retrieve() always returns top_k results even when nothing is actually relevant, which downstream agents may treat as meaningful evidence.
+
+Input / Attack Scenario:
+A query entirely unrelated to textiles/QA, e.g. 'what is the weather like on Mars'.
+
+Expected Behaviour:
+Either no results are returned, or results are returned with clearly low similarity scores and the system flags them as not relevant; current code has no minimum-similarity gate.
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "results": [
+    {
+      "incident_id": "INC-1472",
+      "reason": "Off Shade",
+      "action_plan": "",
+      "similarity_score": 0.22443914413452148
+    },
+    {
+      "incident_id": "INC-1608",
+      "reason": "Off Shade",
+      "action_plan": "",
+      "similarity_score": 0.22443914413452148
+    },
+    {
+      "incident_id": "INC-2170",
+      "reason": "Off Shade",
+      "action_plan": "",
+      "similarity_score": 0.22443914413452148
+    }
+  ]
+}
+
+Observations:
+An unrelated query returned 3 incidents with low similarity scores (~0.224) instead of no results or a relevance warning.
+
+Conclusion:
+The system retrieves potentially irrelevant incidents without a similarity threshold.
+
+Severity: High
+Severity justification: Irrelevant results fed to Agent 4 as if meaningful directly causes hallucinated/unsupported diagnoses.

@@ -1,0 +1,68 @@
+{
+  "test_id": "S3-03",
+  "student": "student3",
+  "specialization": "Hallucinations / Consistency",
+  "title": "Run-to-run consistency (nondeterminism) check",
+  "objective": "Run the exact same inputs through synthesize_diagnosis 3 times and compare primary_cause/severity/confidence for contradictions.",
+  "input_scenario": "3 identical calls with _BASE_ENTITIES/_BASE_ANOMALY/_BASE_INCIDENTS.",
+  "expected_behavior": "Core conclusions (severity, primary cause direction) are stable across repeated runs on identical evidence.",
+  "actual_behavior": [
+    {
+      "status": "ok",
+      "result": {
+        "label": "AI-Assisted Diagnostic Recommendation",
+        "error": "HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+        "input_summary": {
+          "entities": {
+            "loom_id": "12",
+            "batch_id": "B102",
+            "metric": "elongation",
+            "defect_symptom": "inconsistent"
+          },
+          "anomaly_count": 5,
+          "historical_incidents_reviewed": 1
+        }
+      }
+    },
+    {
+      "status": "ok",
+      "result": {
+        "label": "AI-Assisted Diagnostic Recommendation",
+        "error": "HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+        "input_summary": {
+          "entities": {
+            "loom_id": "12",
+            "batch_id": "B102",
+            "metric": "elongation",
+            "defect_symptom": "inconsistent"
+          },
+          "anomaly_count": 5,
+          "historical_incidents_reviewed": 1
+        }
+      }
+    },
+    {
+      "status": "ok",
+      "result": {
+        "label": "AI-Assisted Diagnostic Recommendation",
+        "error": "HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+        "input_summary": {
+          "entities": {
+            "loom_id": "12",
+            "batch_id": "B102",
+            "metric": "elongation",
+            "defect_symptom": "inconsistent"
+          },
+          "anomaly_count": 5,
+          "historical_incidents_reviewed": 1
+        }
+      }
+    }
+  ],
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Contradictory diagnoses for identical evidence undermine trust and auditability of a QA decision-support tool.",
+  "severity_final": "Low",
+  "observations": "All 3 runs returned the same Ollama connection error, with no diagnosis generated.",
+  "conclusion": "Nondeterminism could not be assessed because the model failed to execute.",
+  "timestamp": "20261002_013955"
+}

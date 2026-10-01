@@ -1,0 +1,170 @@
+{
+  "test_id": "S2-03",
+  "student": "student2",
+  "specialization": "Authentication Weaknesses",
+  "title": "Brute-force / rate limiting check",
+  "objective": "Send repeated rapid failed logins and observe whether the endpoint throttles, locks out, or captchas after N attempts.",
+  "input_scenario": "10 rapid POST /token requests with incorrect password for a known username.",
+  "expected_behavior": "Rate limiting, backoff, or lockout kicks in before 10 attempts complete.",
+  "actual_behavior": {
+    "sent": "10x failed login attempts",
+    "received": [
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Thu, 01 Oct 2026 19:46:13 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      }
+    ]
+  },
+  "severity_hint": "High",
+  "severity_justification_hint": "No rate limiting enables automated credential-stuffing/brute-force attacks at scale.",
+  "severity_final": "High",
+  "observations": "All 10 rapid failed login attempts returned HTTP 401 with the same error message. No throttling, delay, CAPTCHA, or account lockout was triggered.",
+  "conclusion": "The endpoint allows repeated authentication attempts without effective rate limiting, increasing exposure to brute-force and credential-stuffing attacks.",
+  "timestamp": "20261002_011746"
+}

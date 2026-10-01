@@ -1,0 +1,48 @@
+{
+  "test_id": "S2-01",
+  "student": "student2",
+  "specialization": "Authentication Weaknesses",
+  "title": "Default/weak credential check",
+  "objective": "Verify /token rejects common default credentials (admin/admin, test/test).",
+  "input_scenario": "POST /token with username=admin, password=admin.",
+  "expected_behavior": "401/403 rejection; no token issued.",
+  "actual_behavior": {
+    "sent": {
+      "username": "admin",
+      "password": "admin"
+    },
+    "received": {
+      "status": "ok",
+      "http_status": 422,
+      "headers": {
+        "date": "Thu, 01 Oct 2026 19:41:25 GMT",
+        "server": "uvicorn",
+        "content-length": "154",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": [
+          {
+            "type": "string_too_short",
+            "loc": [
+              "body",
+              "password"
+            ],
+            "msg": "String should have at least 6 characters",
+            "input": "admin",
+            "ctx": {
+              "min_length": 6
+            }
+          }
+        ]
+      }
+    }
+  },
+  "severity_hint": "Critical",
+  "severity_justification_hint": "A successful default-credential login is immediate full-system compromise.",
+  "severity_final": "low",
+  "observations": "HTTP 422 due to minimum password length; no token issued.",
+  "conclusion": "Default credentials not accepted.",
+  "timestamp": "20261002_011431"
+}

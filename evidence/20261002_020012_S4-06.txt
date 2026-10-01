@@ -1,0 +1,40 @@
+Test ID: S4-06
+Title: Unauthenticated retrieval access
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: API Security / Authentication
+
+Objective:
+Check whether the retrieval/diagnose pipeline can be reached without a valid token, exposing the incident knowledge base to anonymous users.
+
+Input / Attack Scenario:
+POST /diagnose with no Authorization header.
+
+Expected Behaviour:
+Request is rejected before any retrieval occurs.
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "http_status": 401,
+  "elapsed_seconds": 2.09,
+  "headers": {
+    "date": "Thu, 01 Oct 2026 20:28:47 GMT",
+    "server": "uvicorn",
+    "www-authenticate": "Bearer",
+    "content-length": "30",
+    "content-type": "application/json",
+    "vary": "Origin"
+  },
+  "body": {
+    "detail": "Not authenticated"
+  }
+}
+
+Observations:
+/diagnose returned HTTP 401 when accessed without a valid token.
+
+Conclusion:
+Unauthenticated retrieval access is properly blocked.
+
+Severity: Low
+Severity justification: Unauthenticated exposure of the incident knowledge base is a direct data-confidentiality breach.

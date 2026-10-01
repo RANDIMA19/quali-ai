@@ -1,0 +1,63 @@
+{
+  "test_id": "S4-01",
+  "student": "student4",
+  "specialization": "Retrieval Accuracy",
+  "title": "Exact-keyword vs paraphrase retrieval comparison",
+  "objective": "Compare retrieval results for a query using exact wording from a known incident vs a paraphrased version, to measure semantic retrieval quality.",
+  "input_scenario": "Query A: wording taken directly from a known incident's 'reason'. Query B: a paraphrase using different vocabulary for the same meaning.",
+  "expected_behavior": "Both queries return the same (or substantially overlapping) top incidents with reasonably high similarity scores.",
+  "actual_behavior": {
+    "exact": {
+      "status": "ok",
+      "results": [
+        {
+          "incident_id": "INC-0283",
+          "reason": "Low Repeat Length",
+          "action_plan": "",
+          "similarity_score": 0.27441155910491943
+        },
+        {
+          "incident_id": "INC-1500",
+          "reason": "Low Repeat Length",
+          "action_plan": "",
+          "similarity_score": 0.27441155910491943
+        },
+        {
+          "incident_id": "INC-1554",
+          "reason": "Low Repeat Length",
+          "action_plan": "",
+          "similarity_score": 0.27441155910491943
+        }
+      ]
+    },
+    "paraphrase": {
+      "status": "ok",
+      "results": [
+        {
+          "incident_id": "INC-0598",
+          "reason": "1mtr weight issue",
+          "action_plan": "",
+          "similarity_score": 0.2470819354057312
+        },
+        {
+          "incident_id": "INC-1321",
+          "reason": "1mtr weight issue",
+          "action_plan": "",
+          "similarity_score": 0.2470819354057312
+        },
+        {
+          "incident_id": "INC-1747",
+          "reason": "1mtr weight issue",
+          "action_plan": "",
+          "similarity_score": 0.2470819354057312
+        }
+      ]
+    }
+  },
+  "severity_hint": "Informational",
+  "severity_justification_hint": "A baseline accuracy measurement, not itself a vulnerability \u2014 used to contextualize other findings.",
+  "severity_final": "Low",
+  "observations": "Exact and paraphrased queries returned different top incidents, with lower similarity scores for the paraphrase (0.247 vs 0.274).",
+  "conclusion": "Semantic retrieval shows limited consistency for paraphrased queries.",
+  "timestamp": "20261002_014833"
+}

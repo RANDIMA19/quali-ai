@@ -1,0 +1,51 @@
+Test ID: S4-08
+Title: HTTP vs HTTPS transport check
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: API Security
+
+Objective:
+Confirm whether API_BASE_URL is served over HTTP or HTTPS, and whether tokens/queries are sent in cleartext.
+
+Input / Attack Scenario:
+Inspect the scheme of API_BASE_URL and the response headers for HSTS.
+
+Expected Behaviour:
+Production deployment uses HTTPS with HSTS; any HTTP deployment is flagged.
+
+Actual Behaviour:
+{
+  "sent": "scheme/header inspection",
+  "received": {
+    "base_url": "http://localhost:8000",
+    "note": "check scheme manually + inspect Strict-Transport-Security header below",
+    "probe": {
+      "status": "ok",
+      "http_status": 200,
+      "headers": {
+        "date": "Thu, 01 Oct 2026 20:31:21 GMT",
+        "server": "uvicorn",
+        "content-length": "130",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "message": "Quality AI Diagnostic API",
+        "version": "1.0.0",
+        "endpoints": {
+          "token": "/token",
+          "diagnose": "/diagnose",
+          "health": "/health"
+        }
+      }
+    }
+  }
+}
+
+Observations:
+The API is served over HTTP (http://localhost:8000) and the response does not include a Strict-Transport-Security (HSTS) header.
+
+Conclusion:
+HTTPS and HSTS are not configured in the tested deployment, so authentication tokens and incident data could be exposed to network interception if deployed beyond localhost.
+
+Severity: High
+Severity justification: Cleartext transport exposes credentials and incident data to network eavesdroppers.

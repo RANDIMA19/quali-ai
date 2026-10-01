@@ -1,0 +1,132 @@
+{
+  "test_id": "S4-07",
+  "student": "student4",
+  "specialization": "Authorization",
+  "title": "Cross-tenant/cross-loom authorization check",
+  "objective": "If the system supports multiple users/departments, check whether a valid but lower-privileged token can retrieve incidents belonging to a restricted loom/department it shouldn't have access to.",
+  "input_scenario": "Authenticate as a low-privilege test account and query for a loom/batch known to belong to a different department.",
+  "expected_behavior": "Access is scoped \u2014 a user only sees incidents/data they are authorized for (or the system documents that no such scoping exists, which is itself a finding).",
+  "actual_behavior": {
+    "sent": {
+      "step": "authenticate as standard user, then query a different department's loom/batch",
+      "token_present": true
+    },
+    "received": {
+      "status": "ok",
+      "http_status": 200,
+      "elapsed_seconds": 0.06,
+      "headers": {
+        "date": "Thu, 01 Oct 2026 20:30:34 GMT",
+        "server": "uvicorn",
+        "content-length": "2051",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "success": true,
+        "message": "Diagnosis completed successfully",
+        "data": {
+          "query": "Loom 500 Batch Z999 restricted-department issue",
+          "agent_outputs": {
+            "agent1_intake": {
+              "loom_id": "500",
+              "batch_id": "Z999",
+              "metric": null,
+              "defect_symptom": "issue"
+            },
+            "agent2_anomaly": {
+              "note": "No production data provided, skipping anomaly detection"
+            },
+            "agent3_retrieval": [
+              {
+                "incident_id": "INC-1021",
+                "reason": "Greige Issue",
+                "action_plan": "",
+                "similarity_score": 0.29809367656707764
+              },
+              {
+                "incident_id": "INC-0058",
+                "reason": "Quality Issue",
+                "action_plan": "",
+                "similarity_score": 0.29268550872802734
+              },
+              {
+                "incident_id": "INC-2319",
+                "reason": "Quality Issue",
+                "action_plan": "",
+                "similarity_score": 0.29268550872802734
+              }
+            ],
+            "agent4_synthesis": {
+              "label": "Rule-Based Diagnostic Recommendation",
+              "diagnosis": {
+                "root_cause_analysis": {
+                  "primary_cause": "Unknown cause related to unknown issue",
+                  "contributing_factors": [
+                    "Unknown measurement variability",
+                    "Issue pattern in production data"
+                  ],
+                  "severity": "low"
+                },
+                "cited_incidents": [
+                  {
+                    "incident_id": "INC-1021",
+                    "relevance": "Similar issue unknown issue",
+                    "similarity_score": 0.29809367656707764
+                  },
+                  {
+                    "incident_id": "INC-0058",
+                    "relevance": "Similar issue unknown issue",
+                    "similarity_score": 0.29268550872802734
+                  },
+                  {
+                    "incident_id": "INC-2319",
+                    "relevance": "Similar issue unknown issue",
+                    "similarity_score": 0.29268550872802734
+                  }
+                ],
+                "recommendations": [
+                  {
+                    "action": "Conduct comprehensive equipment inspection",
+                    "priority": "short-term",
+                    "expected_outcome": "Identify root cause of variability"
+                  },
+                  {
+                    "action": "Review and adjust process parameters",
+                    "priority": "short-term",
+                    "expected_outcome": "Optimize production settings"
+                  },
+                  {
+                    "action": "Implement enhanced monitoring for unknown",
+                    "priority": "long-term",
+                    "expected_outcome": "Early detection of future issues"
+                  }
+                ],
+                "confidence": "medium",
+                "additional_notes": "Analysis based on 0 anomalies detected in unknown for issue symptoms on loom 500, batch Z999."
+              },
+              "input_summary": {
+                "entities": {
+                  "loom_id": "500",
+                  "batch_id": "Z999",
+                  "metric": null,
+                  "defect_symptom": "issue"
+                },
+                "anomaly_count": 0,
+                "historical_incidents_reviewed": 3
+              },
+              "method": "rule_based"
+            }
+          }
+        },
+        "timestamp": "2026-10-01T20:30:34.685767"
+      }
+    }
+  },
+  "severity_hint": "High",
+  "severity_justification_hint": "Missing row/record-level authorization lets any authenticated user see all incidents regardless of department/ownership.",
+  "severity_final": "High",
+  "observations": "A standard user successfully accessed /diagnose for the specified restricted loom/batch and received incident results.",
+  "conclusion": "No cross-tenant authorization restriction was enforced for this request.",
+  "timestamp": "20261002_020119"
+}

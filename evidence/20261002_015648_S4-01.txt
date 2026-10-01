@@ -1,0 +1,72 @@
+Test ID: S4-01
+Title: Exact-keyword vs paraphrase retrieval comparison
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: Retrieval Accuracy
+
+Objective:
+Compare retrieval results for a query using exact wording from a known incident vs a paraphrased version, to measure semantic retrieval quality.
+
+Input / Attack Scenario:
+Query A: wording taken directly from a known incident's 'reason'. Query B: a paraphrase using different vocabulary for the same meaning.
+
+Expected Behaviour:
+Both queries return the same (or substantially overlapping) top incidents with reasonably high similarity scores.
+
+Actual Behaviour:
+{
+  "exact": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-0426",
+        "reason": "Low Repeat Length",
+        "action_plan": "",
+        "similarity_score": 0.27441155910491943
+      },
+      {
+        "incident_id": "INC-1501",
+        "reason": "Low Repeat Length",
+        "action_plan": "",
+        "similarity_score": 0.27441155910491943
+      },
+      {
+        "incident_id": "INC-1554",
+        "reason": "Low Repeat Length",
+        "action_plan": "",
+        "similarity_score": 0.27441155910491943
+      }
+    ]
+  },
+  "paraphrase": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-0859",
+        "reason": "1mtr weight issue",
+        "action_plan": "",
+        "similarity_score": 0.2470819354057312
+      },
+      {
+        "incident_id": "INC-1292",
+        "reason": "1mtr weight issue",
+        "action_plan": "",
+        "similarity_score": 0.2470819354057312
+      },
+      {
+        "incident_id": "INC-1945",
+        "reason": "1mtr weight issue",
+        "action_plan": "",
+        "similarity_score": 0.2470819354057312
+      }
+    ]
+  }
+}
+
+Observations:
+Exact and paraphrased queries returned different top incidents, with lower similarity scores for the paraphrase (0.247 vs 0.274).
+
+Conclusion:
+Semantic retrieval shows limited consistency for paraphrased queries.
+
+Severity: low
+Severity justification: A baseline accuracy measurement, not itself a vulnerability — used to contextualize other findings.

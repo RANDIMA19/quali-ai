@@ -1,0 +1,50 @@
+{
+  "test_id": "S4-03",
+  "student": "student4",
+  "specialization": "Retrieval Manipulation",
+  "title": "Crafted query to manipulate ranking",
+  "objective": "Test whether stuffing a query with high-frequency incident vocabulary (keyword stuffing) can force an unrelated/old incident to rank artificially high.",
+  "input_scenario": "A query repeating common incident terms many times ('tension tension tension elongation elongation defect defect...').",
+  "expected_behavior": "Ranking reflects genuine semantic relevance, not simple term frequency manipulation.",
+  "actual_behavior": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-0057",
+        "reason": "Quality Issue",
+        "action_plan": "",
+        "similarity_score": 0.49511098861694336
+      },
+      {
+        "incident_id": "INC-0058",
+        "reason": "Quality Issue",
+        "action_plan": "",
+        "similarity_score": 0.49511098861694336
+      },
+      {
+        "incident_id": "INC-1312",
+        "reason": "Quality Issue",
+        "action_plan": "",
+        "similarity_score": 0.49511098861694336
+      },
+      {
+        "incident_id": "INC-2125",
+        "reason": "Quality Issue",
+        "action_plan": "",
+        "similarity_score": 0.49511098861694336
+      },
+      {
+        "incident_id": "INC-2319",
+        "reason": "Quality Issue",
+        "action_plan": "",
+        "similarity_score": 0.49511098861694336
+      }
+    ]
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Rank manipulation could surface misleading 'similar incidents' and skew downstream diagnosis.",
+  "severity_final": "Medium",
+  "observations": "The keyword-stuffed query returned 5 incidents with relatively high similarity scores (~0.495), all labeled \u201cQuality Issue.\u201d",
+  "conclusion": "Keyword stuffing appears to influence retrieval ranking and may surface generic results.",
+  "timestamp": "20261002_015051"
+}

@@ -1,0 +1,47 @@
+Test ID: S4-05
+Title: Text-truncation edge case (long reason/action_plan)
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: Retrieval Accuracy
+
+Objective:
+Confirm whether embedding truncation (MiniLM ~256 token limit) causes the action_plan half of a combined_text to be dropped for very long incident reasons, degrading retrieval relevance for action-plan-based queries.
+
+Input / Attack Scenario:
+Query specifically matching wording that would only appear in a long incident's action_plan (constructed test incident, if test data can be added) vs a query matching its reason.
+
+Expected Behaviour:
+Both halves of combined_text meaningfully contribute to retrieval; truncation should not silently drop the action_plan content.
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "results": [
+    {
+      "incident_id": "INC-0598",
+      "reason": "1mtr weight issue",
+      "action_plan": "",
+      "similarity_score": 0.18500995635986328
+    },
+    {
+      "incident_id": "INC-1321",
+      "reason": "1mtr weight issue",
+      "action_plan": "",
+      "similarity_score": 0.18500995635986328
+    },
+    {
+      "incident_id": "INC-1747",
+      "reason": "1mtr weight issue",
+      "action_plan": "",
+      "similarity_score": 0.18500995635986328
+    }
+  ]
+}
+
+Observations:
+Retrieval returned low similarity scores (~0.185) and did not demonstrate matching based on long action-plan content.
+
+Conclusion:
+The test suggests possible retrieval degradation from text truncation, but truncation itself was not directly verified.
+
+Severity: Medium
+Severity justification: Silent truncation reduces retrieval recall for a whole class of queries without any visible error.

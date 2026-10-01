@@ -1,0 +1,43 @@
+Test ID: S2-05
+Title: Unauthenticated access to /diagnose
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Authentication Weaknesses
+
+Objective:
+Call /diagnose with no Authorization header at all.
+
+Input / Attack Scenario:
+POST /diagnose with query only, no token.
+
+Expected Behaviour:
+401/403 — the diagnosis endpoint must require a valid token.
+
+Actual Behaviour:
+{
+  "sent": "no token",
+  "received": {
+    "status": "ok",
+    "http_status": 401,
+    "elapsed_seconds": 2.07,
+    "headers": {
+      "date": "Thu, 01 Oct 2026 19:50:00 GMT",
+      "server": "uvicorn",
+      "www-authenticate": "Bearer",
+      "content-length": "30",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "detail": "Not authenticated"
+    }
+  }
+}
+
+Observations:
+/diagnose returned HTTP 401 when accessed without an Authorization header.
+
+Conclusion:
+Unauthenticated access is properly blocked.
+
+Severity: Low
+Severity justification: Fully unauthenticated access to a production-diagnosis endpoint exposes operational data to anyone.

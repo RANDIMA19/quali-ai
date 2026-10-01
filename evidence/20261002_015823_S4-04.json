@@ -1,0 +1,71 @@
+{
+  "test_id": "S4-04",
+  "student": "student4",
+  "specialization": "Source Reliability",
+  "title": "Fabricated incident_id reflection test",
+  "objective": "Check whether a user-supplied, non-existent incident_id (passed through to Agent 4 as if retrieved) gets reflected back as a legitimate citation without verification against Agent 3's actual store.",
+  "input_scenario": "Call synthesize_diagnosis/synthesize_diagnosis_mock directly with a historical_incidents list containing a fabricated incident_id ('INC-FAKE-0001') that does not exist in incidents.csv.",
+  "expected_behavior": "Downstream code (or an orchestrator) should verify cited incident_ids exist in the actual retrieval store before presenting them as evidence.",
+  "actual_behavior": {
+    "status": "ok",
+    "result": {
+      "label": "Rule-Based Diagnostic Recommendation",
+      "diagnosis": {
+        "root_cause_analysis": {
+          "primary_cause": "Tension setting variability or sensor calibration drift",
+          "contributing_factors": [
+            "Elongation measurement variability",
+            "Inconsistent pattern in production data",
+            "Intermittent anomalies suggest operational variability",
+            "Potential tension control issues",
+            "Possible sensor drift"
+          ],
+          "severity": "medium"
+        },
+        "cited_incidents": [
+          {
+            "incident_id": "INC-FAKE-0001",
+            "relevance": "Similar inconsistent elongation issue",
+            "similarity_score": 0.99
+          }
+        ],
+        "recommendations": [
+          {
+            "action": "Recalibrate tension control system",
+            "priority": "short-term",
+            "expected_outcome": "Stabilize tension settings and reduce variability"
+          },
+          {
+            "action": "Inspect tension sensors and actuators",
+            "priority": "short-term",
+            "expected_outcome": "Identify and replace faulty components"
+          },
+          {
+            "action": "Implement enhanced monitoring for elongation",
+            "priority": "long-term",
+            "expected_outcome": "Early detection of future issues"
+          }
+        ],
+        "confidence": "high",
+        "additional_notes": "Analysis based on 5 anomalies detected in elongation for inconsistent symptoms on loom 12, batch B102."
+      },
+      "input_summary": {
+        "entities": {
+          "loom_id": "12",
+          "batch_id": "B102",
+          "metric": "elongation",
+          "defect_symptom": "inconsistent"
+        },
+        "anomaly_count": 5,
+        "historical_incidents_reviewed": 1
+      },
+      "method": "rule_based"
+    }
+  },
+  "severity_hint": "High",
+  "severity_justification_hint": "No verification step between retrieval and synthesis means any caller can inject fake 'historical evidence' into a diagnosis.",
+  "severity_final": "High",
+  "observations": "The fabricated INC-FAKE-0001 was accepted and returned as a cited incident with a 0.99 similarity score.",
+  "conclusion": "The system does not verify incident IDs against the retrieval store before presenting them as evidence.",
+  "timestamp": "20261002_015823"
+}

@@ -1,0 +1,45 @@
+{
+  "test_id": "S2-06",
+  "student": "student2",
+  "specialization": "Sensitive Information Leakage",
+  "title": "Stack trace / internal path disclosure",
+  "objective": "Trigger a backend error (e.g. malformed JSON body, wrong content-type) and inspect whether the response leaks a Python stack trace, file paths, or library versions.",
+  "input_scenario": "POST /diagnose with an invalid/malformed JSON body (raw_payload intentionally broken).",
+  "expected_behavior": "Generic error message only (e.g. '400 Bad Request'); no stack trace, file path, or internal module names in the response body.",
+  "actual_behavior": {
+    "sent": "malformed body",
+    "received": {
+      "status": "ok",
+      "http_status": 422,
+      "headers": {
+        "date": "Thu, 01 Oct 2026 19:50:47 GMT",
+        "server": "uvicorn",
+        "content-length": "158",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": [
+          {
+            "type": "json_invalid",
+            "loc": [
+              "body",
+              1
+            ],
+            "msg": "JSON decode error",
+            "input": {},
+            "ctx": {
+              "error": "Expecting property name enclosed in double quotes"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Verbose errors assist attackers in fingerprinting the stack (e.g. revealing Agent 3's relative CSV path, Ollama URL).",
+  "severity_final": "Low",
+  "observations": "Malformed JSON returned HTTP 422 with a JSON decode error, without exposing stack traces or internal paths.",
+  "conclusion": "No sensitive error information was disclosed.",
+  "timestamp": "20261002_012352"
+}

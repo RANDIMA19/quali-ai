@@ -1,0 +1,164 @@
+Test ID: S2-04
+Title: JWT/token tampering acceptance
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Authentication Weaknesses
+
+Objective:
+Obtain a valid token, then tamper with it (flip the final character) and resubmit to /diagnose.
+
+Input / Attack Scenario:
+Valid login -> extract real token; then call /diagnose with the token's last character changed.
+
+Expected Behaviour:
+Tampered token is rejected (401/403), not silently accepted.
+
+Actual Behaviour:
+{
+  "sent": {
+    "step": "valid login, then /diagnose with a single-character-mutated token",
+    "tamper_note": "real token with final character flipped"
+  },
+  "received": {
+    "login": {
+      "status": "ok",
+      "http_status": 200,
+      "headers": {
+        "date": "Thu, 01 Oct 2026 19:47:48 GMT",
+        "server": "uvicorn",
+        "content-length": "214",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsibWFuYWdlciJdLCJleHAiOjE3OTA4ODU4Njh9.UnThm-cKDKWIa1w6o17YfSJOhrXqr5Uvk-SkZxKxXFA",
+        "token_type": "bearer",
+        "roles": [
+          "manager"
+        ]
+      }
+    },
+    "extracted_real_token": true,
+    "diagnose_with_tampered_token": {
+      "status": "ok",
+      "http_status": 200,
+      "elapsed_seconds": 0.04,
+      "headers": {
+        "date": "Thu, 01 Oct 2026 19:47:48 GMT",
+        "server": "uvicorn",
+        "content-length": "2169",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "success": true,
+        "message": "Diagnosis completed successfully",
+        "data": {
+          "query": "Loom 12 elongation test query",
+          "agent_outputs": {
+            "agent1_intake": {
+              "loom_id": "12",
+              "batch_id": null,
+              "metric": "elongation",
+              "defect_symptom": null
+            },
+            "agent2_anomaly": {
+              "note": "No production data provided, skipping anomaly detection"
+            },
+            "agent3_retrieval": [
+              {
+                "incident_id": "INC-0620",
+                "reason": "Low Repeat Length",
+                "action_plan": "Product should be developed",
+                "similarity_score": 0.3535851240158081
+              },
+              {
+                "incident_id": "INC-0171",
+                "reason": "Low Repeat Length",
+                "action_plan": "",
+                "similarity_score": 0.31842339038848877
+              },
+              {
+                "incident_id": "INC-0283",
+                "reason": "Low Repeat Length",
+                "action_plan": "",
+                "similarity_score": 0.31842339038848877
+              }
+            ],
+            "agent4_synthesis": {
+              "label": "Rule-Based Diagnostic Recommendation",
+              "diagnosis": {
+                "root_cause_analysis": {
+                  "primary_cause": "Unknown cause related to elongation unknown",
+                  "contributing_factors": [
+                    "Elongation measurement variability",
+                    "Unknown pattern in production data",
+                    "Potential tension control issues",
+                    "Possible sensor drift"
+                  ],
+                  "severity": "low"
+                },
+                "cited_incidents": [
+                  {
+                    "incident_id": "INC-0620",
+                    "relevance": "Similar unknown elongation issue",
+                    "similarity_score": 0.3535851240158081
+                  },
+                  {
+                    "incident_id": "INC-0171",
+                    "relevance": "Similar unknown elongation issue",
+                    "similarity_score": 0.31842339038848877
+                  },
+                  {
+                    "incident_id": "INC-0283",
+                    "relevance": "Similar unknown elongation issue",
+                    "similarity_score": 0.31842339038848877
+                  }
+                ],
+                "recommendations": [
+                  {
+                    "action": "Conduct comprehensive equipment inspection",
+                    "priority": "short-term",
+                    "expected_outcome": "Identify root cause of variability"
+                  },
+                  {
+                    "action": "Review and adjust process parameters",
+                    "priority": "short-term",
+                    "expected_outcome": "Optimize production settings"
+                  },
+                  {
+                    "action": "Implement enhanced monitoring for elongation",
+                    "priority": "long-term",
+                    "expected_outcome": "Early detection of future issues"
+                  }
+                ],
+                "confidence": "medium",
+                "additional_notes": "Analysis based on 0 anomalies detected in elongation for unknown symptoms on loom 12, batch unknown."
+              },
+              "input_summary": {
+                "entities": {
+                  "loom_id": "12",
+                  "batch_id": null,
+                  "metric": "elongation",
+                  "defect_symptom": null
+                },
+                "anomaly_count": 0,
+                "historical_incidents_reviewed": 3
+              },
+              "method": "rule_based"
+            }
+          }
+        },
+        "timestamp": "2026-10-01T19:47:48.798762"
+      }
+    }
+  }
+}
+
+Observations:
+A token with one character modified was accepted by /diagnose and returned HTTP 200 with successful diagnostic data.
+
+Conclusion:
+JWT tampering is accepted, indicating an authentication bypass and failure to properly validate token integrity.
+
+Severity: High
+Severity justification: Acceptance of a tampered token is a full authentication bypass.

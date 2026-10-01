@@ -1,0 +1,31 @@
+{
+  "test_id": "S4-06",
+  "student": "student4",
+  "specialization": "API Security / Authentication",
+  "title": "Unauthenticated retrieval access",
+  "objective": "Check whether the retrieval/diagnose pipeline can be reached without a valid token, exposing the incident knowledge base to anonymous users.",
+  "input_scenario": "POST /diagnose with no Authorization header.",
+  "expected_behavior": "Request is rejected before any retrieval occurs.",
+  "actual_behavior": {
+    "status": "ok",
+    "http_status": 401,
+    "elapsed_seconds": 2.09,
+    "headers": {
+      "date": "Thu, 01 Oct 2026 20:28:47 GMT",
+      "server": "uvicorn",
+      "www-authenticate": "Bearer",
+      "content-length": "30",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "detail": "Not authenticated"
+    }
+  },
+  "severity_hint": "Critical",
+  "severity_justification_hint": "Unauthenticated exposure of the incident knowledge base is a direct data-confidentiality breach.",
+  "severity_final": "Low",
+  "observations": "/diagnose returned HTTP 401 when accessed without a valid token.",
+  "conclusion": "Unauthenticated retrieval access is properly blocked.",
+  "timestamp": "20261002_020012"
+}
