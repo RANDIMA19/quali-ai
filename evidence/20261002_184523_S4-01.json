@@ -1,0 +1,63 @@
+{
+  "test_id": "S4-01",
+  "student": "student4",
+  "specialization": "Retrieval Accuracy",
+  "title": "Exact-keyword vs paraphrase retrieval comparison",
+  "objective": "Compare retrieval results for a query using exact wording from a known incident vs a paraphrased version, to measure semantic retrieval quality.",
+  "input_scenario": "Query A: wording taken directly from a known incident's 'reason'. Query B: a paraphrase using different vocabulary for the same meaning.",
+  "expected_behavior": "Both queries return the same (or substantially overlapping) top incidents with reasonably high similarity scores.",
+  "actual_behavior": {
+    "exact": {
+      "status": "ok",
+      "results": [
+        {
+          "incident_id": "INC-0195",
+          "reason": "Low Repeat Length",
+          "action_plan": "",
+          "similarity_score": 0.27441155910491943
+        },
+        {
+          "incident_id": "INC-0283",
+          "reason": "Low Repeat Length",
+          "action_plan": "",
+          "similarity_score": 0.27441155910491943
+        },
+        {
+          "incident_id": "INC-1554",
+          "reason": "Low Repeat Length",
+          "action_plan": "",
+          "similarity_score": 0.27441155910491943
+        }
+      ]
+    },
+    "paraphrase": {
+      "status": "ok",
+      "results": [
+        {
+          "incident_id": "INC-0366",
+          "reason": "Width Variation",
+          "action_plan": "",
+          "similarity_score": 0.33390504121780396
+        },
+        {
+          "incident_id": "INC-0735",
+          "reason": "Width Variation",
+          "action_plan": "",
+          "similarity_score": 0.33390504121780396
+        },
+        {
+          "incident_id": "INC-1072",
+          "reason": "Width Variation",
+          "action_plan": "",
+          "similarity_score": 0.33390504121780396
+        }
+      ]
+    }
+  },
+  "severity_hint": "Informational",
+  "severity_justification_hint": "A baseline accuracy measurement, not itself a vulnerability \u2014 used to contextualize other findings.",
+  "severity_final": "Informational",
+  "observations": "The exact-wording and paraphrased queries returned completely different top-3 incidents. The exact query returned three Low Repeat Length incidents with similarity 0.2744, while the paraphrase returned three Width Variation incidents with a higher similarity of 0.3339.",
+  "conclusion": "Semantic retrieval is not consistent for this test case. The paraphrase failed to substantially overlap with the incidents retrieved by the exact wording, indicating a retrieval-accuracy weakness for paraphrased queries.",
+  "timestamp": "20261002_184523"
+}

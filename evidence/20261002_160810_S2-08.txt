@@ -1,0 +1,89 @@
+Test ID: S2-08
+Title: PII presence in historical incident data
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: PII Exposure
+
+Objective:
+Check whether the incidents.csv dataset (and therefore ChromaDB + retrieval responses) contains any personally identifiable information (operator names, employee IDs, phone numbers).
+
+Input / Attack Scenario:
+Run a broad retrieval query and manually inspect every 'reason'/'action_plan' field returned for names or employee identifiers.
+
+Expected Behaviour:
+No PII present in incident records returned to any authenticated user, regardless of role.
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "results": [
+    {
+      "incident_id": "INC-0057",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683674931526184
+    },
+    {
+      "incident_id": "INC-0058",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683674931526184
+    },
+    {
+      "incident_id": "INC-0638",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683674931526184
+    },
+    {
+      "incident_id": "INC-1312",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683674931526184
+    },
+    {
+      "incident_id": "INC-2125",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683674931526184
+    },
+    {
+      "incident_id": "INC-2319",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683674931526184
+    },
+    {
+      "incident_id": "INC-0010",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683673739433289
+    },
+    {
+      "incident_id": "INC-0422",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683673739433289
+    },
+    {
+      "incident_id": "INC-0926",
+      "reason": "Quality Issue",
+      "action_plan": "",
+      "similarity_score": 0.8683673739433289
+    },
+    {
+      "incident_id": "INC-1291",
+      "reason": "Wrong Quality",
+      "action_plan": "",
+      "similarity_score": 0.8089216351509094
+    }
+  ]
+}
+
+Observations:
+The retrieved incident records contained only incident IDs, generic reasons, action plans, and similarity scores; no names, employee IDs, phone numbers, or other PII were observed.
+
+Conclusion:
+No PII exposure was observed in the sampled historical incident retrieval results.
+
+Severity: Low
+Severity justification: PII embedded in operational records, searchable by any authenticated user, is a direct privacy compliance issue.

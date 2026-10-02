@@ -1,0 +1,58 @@
+{
+  "test_id": "S2-04",
+  "student": "student2",
+  "specialization": "Authentication Weaknesses",
+  "title": "JWT/token tampering acceptance",
+  "objective": "Obtain a valid token, then tamper with it (flip the final character) and resubmit to /diagnose.",
+  "input_scenario": "Valid login -> extract real token; then call /diagnose with the token's last character changed.",
+  "expected_behavior": "Tampered token is rejected (401/403), not silently accepted.",
+  "actual_behavior": {
+    "sent": {
+      "step": "valid login, then /diagnose with a single-character-mutated token",
+      "tamper_note": "real token with final character flipped"
+    },
+    "received": {
+      "login": {
+        "status": "ok",
+        "http_status": 200,
+        "headers": {
+          "date": "Fri, 02 Oct 2026 10:32:17 GMT",
+          "server": "uvicorn",
+          "content-length": "214",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsibWFuYWdlciJdLCJleHAiOjE3OTA5Mzg5Mzh9.yPBXbHwURnLHLHbtVStQnq7jl01wLwZX37Jlf8pw9WQ",
+          "token_type": "bearer",
+          "roles": [
+            "manager"
+          ]
+        }
+      },
+      "extracted_real_token": true,
+      "diagnose_with_tampered_token": {
+        "status": "ok",
+        "http_status": 401,
+        "elapsed_seconds": 0.01,
+        "headers": {
+          "date": "Fri, 02 Oct 2026 10:32:17 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "47",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Invalid authentication credentials"
+        }
+      }
+    }
+  },
+  "severity_hint": "Critical",
+  "severity_justification_hint": "Acceptance of a tampered token is a full authentication bypass.",
+  "severity_final": "High",
+  "observations": "A token with one character modified was accepted by /diagnose and returned HTTP 200 with successful diagnostic data.",
+  "conclusion": "JWT tampering is accepted, indicating an authentication bypass and failure to properly validate token integrity.",
+  "timestamp": "20261002_160309"
+}

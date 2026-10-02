@@ -1,0 +1,38 @@
+{
+  "test_id": "S4-02",
+  "student": "student4",
+  "specialization": "Hallucination due to Retrieval",
+  "title": "No-similarity-threshold forced retrieval",
+  "objective": "Confirm that retrieve() always returns top_k results even when nothing is actually relevant, which downstream agents may treat as meaningful evidence.",
+  "input_scenario": "A query entirely unrelated to textiles/QA, e.g. 'what is the weather like on Mars'.",
+  "expected_behavior": "Either no results are returned, or results are returned with clearly low similarity scores and the system flags them as not relevant; current code has no minimum-similarity gate.",
+  "actual_behavior": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-0063",
+        "reason": "Off Shade",
+        "action_plan": "",
+        "similarity_score": 0.22443914413452148
+      },
+      {
+        "incident_id": "INC-0637",
+        "reason": "Off Shade",
+        "action_plan": "",
+        "similarity_score": 0.22443914413452148
+      },
+      {
+        "incident_id": "INC-1522",
+        "reason": "Off Shade",
+        "action_plan": "",
+        "similarity_score": 0.22443914413452148
+      }
+    ]
+  },
+  "severity_hint": "High",
+  "severity_justification_hint": "Irrelevant results fed to Agent 4 as if meaningful directly causes hallucinated/unsupported diagnoses.",
+  "severity_final": "a",
+  "observations": "a",
+  "conclusion": "a",
+  "timestamp": "20261002_184644"
+}

@@ -1,0 +1,140 @@
+Test ID: S2-14
+Title: Sensitive field exposure in /diagnose response
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Data Protection
+
+Objective:
+Check whether the API response to /diagnose includes any field unrelated to the documented schema (e.g. internal entity IDs, raw model name, environment values).
+
+Input / Attack Scenario:
+Submit a normal query and inspect the full raw JSON response body for unexpected fields.
+
+Expected Behaviour:
+Response contains only the documented diagnosis schema fields.
+
+Actual Behaviour:
+{
+  "sent": "Loom 12 elongation inconsistency in Batch B102",
+  "received": {
+    "status": "ok",
+    "http_status": 200,
+    "elapsed_seconds": 9.87,
+    "headers": {
+      "date": "Fri, 02 Oct 2026 11:04:46 GMT",
+      "server": "uvicorn",
+      "content-length": "2187",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "success": true,
+      "message": "Diagnosis completed successfully",
+      "data": {
+        "query": "Loom 12 elongation inconsistency in Batch B102",
+        "agent_outputs": {
+          "agent1_intake": {
+            "loom_id": "12",
+            "batch_id": "B102",
+            "metric": "elongation",
+            "defect_symptom": null
+          },
+          "agent2_anomaly": {
+            "note": "No production data provided, skipping anomaly detection"
+          },
+          "agent3_retrieval": [
+            {
+              "incident_id": "INC-0620",
+              "reason": "Low Repeat Length",
+              "action_plan": "Product should be developed",
+              "similarity_score": 0.3535851240158081
+            },
+            {
+              "incident_id": "INC-1500",
+              "reason": "Low Repeat Length",
+              "action_plan": "",
+              "similarity_score": 0.31842339038848877
+            },
+            {
+              "incident_id": "INC-1878",
+              "reason": "Low Repeat Length",
+              "action_plan": "",
+              "similarity_score": 0.31842339038848877
+            }
+          ],
+          "agent4_synthesis": {
+            "label": "Rule-Based Diagnostic Recommendation",
+            "diagnosis": {
+              "root_cause_analysis": {
+                "primary_cause": "Unknown cause related to elongation unknown",
+                "contributing_factors": [
+                  "Elongation measurement variability",
+                  "Unknown pattern in production data",
+                  "Potential tension control issues",
+                  "Possible sensor drift"
+                ],
+                "severity": "low"
+              },
+              "cited_incidents": [
+                {
+                  "incident_id": "INC-0620",
+                  "relevance": "Similar unknown elongation issue",
+                  "similarity_score": 0.3535851240158081
+                },
+                {
+                  "incident_id": "INC-1500",
+                  "relevance": "Similar unknown elongation issue",
+                  "similarity_score": 0.31842339038848877
+                },
+                {
+                  "incident_id": "INC-1878",
+                  "relevance": "Similar unknown elongation issue",
+                  "similarity_score": 0.31842339038848877
+                }
+              ],
+              "recommendations": [
+                {
+                  "action": "Conduct comprehensive equipment inspection",
+                  "priority": "short-term",
+                  "expected_outcome": "Identify root cause of variability"
+                },
+                {
+                  "action": "Review and adjust process parameters",
+                  "priority": "short-term",
+                  "expected_outcome": "Optimize production settings"
+                },
+                {
+                  "action": "Implement enhanced monitoring for elongation",
+                  "priority": "long-term",
+                  "expected_outcome": "Early detection of future issues"
+                }
+              ],
+              "confidence": "medium",
+              "additional_notes": "Analysis based on 0 anomalies detected in elongation for unknown symptoms on loom 12, batch B102."
+            },
+            "input_summary": {
+              "entities": {
+                "loom_id": "12",
+                "batch_id": "B102",
+                "metric": "elongation",
+                "defect_symptom": null
+              },
+              "anomaly_count": 0,
+              "historical_incidents_reviewed": 3
+            },
+            "method": "rule_based"
+          }
+        }
+      },
+      "timestamp": "2026-10-02T11:04:57.502440"
+    }
+  }
+}
+
+Observations:
+The API returned the expected diagnosis data, including the original query, agent outputs, incident details, similarity scores, and timestamp; no raw model name, environment values, or secrets were exposed.
+
+Conclusion:
+No sensitive field or internal infrastructure information leakage was observed.
+
+Severity: Low
+Severity justification: Unexpected fields are informational unless they expose secrets or internal infrastructure details.

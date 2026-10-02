@@ -1,0 +1,68 @@
+Test ID: S2-02
+Title: Account enumeration via error message differences
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Authentication Weaknesses
+
+Objective:
+Check whether the error for 'unknown username' differs from 'wrong password', which lets an attacker enumerate valid accounts.
+
+Input / Attack Scenario:
+Two logins: (a) known-invalid username + any password, (b) a likely-valid username + wrong password; compare response bodies/status codes.
+
+Expected Behaviour:
+Identical generic error message/status for both cases.
+
+Actual Behaviour:
+{
+  "sent": {
+    "attempt_a": {
+      "username": "definitely_not_a_real_user_xyz",
+      "password": "whatever"
+    },
+    "attempt_b": {
+      "username": "manager",
+      "password": "wrong_password_123"
+    }
+  },
+  "received": {
+    "a": {
+      "status": "ok",
+      "http_status": 401,
+      "headers": {
+        "date": "Fri, 02 Oct 2026 10:31:17 GMT",
+        "server": "uvicorn",
+        "www-authenticate": "Bearer",
+        "content-length": "43",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": "Incorrect username or password"
+      }
+    },
+    "b": {
+      "status": "ok",
+      "http_status": 401,
+      "headers": {
+        "date": "Fri, 02 Oct 2026 10:31:17 GMT",
+        "server": "uvicorn",
+        "www-authenticate": "Bearer",
+        "content-length": "43",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": "Incorrect username or password"
+      }
+    }
+  }
+}
+
+Observations:
+Both attempts returned identical HTTP 401 responses and error messages.
+
+Conclusion:
+Username enumeration is not possible through differing login errors.
+
+Severity: Low
+Severity justification: Enumeration aids credential-stuffing/brute-force attacks but doesn't grant access on its own.

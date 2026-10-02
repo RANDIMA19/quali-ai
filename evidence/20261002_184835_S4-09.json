@@ -1,0 +1,19 @@
+{
+  "test_id": "S4-09",
+  "student": "student4",
+  "specialization": "Communication Protocol Security",
+  "title": "Internal Ollama API exposure check",
+  "objective": "Check whether the Ollama endpoint (localhost:11434 by default) is accidentally exposed on a non-loopback interface, reachable from other hosts on the network.",
+  "input_scenario": "From a separate machine on the same network, attempt to reach http://<server-ip>:11434/api/generate directly.",
+  "expected_behavior": "Ollama is bound to loopback only / firewalled; unreachable from other hosts.",
+  "actual_behavior": {
+    "sent": "manual network-level test \u2014 attempt external reach to port 11434",
+    "received": "perform with nmap/curl from a separate host; record result as evidence"
+  },
+  "severity_hint": "Critical",
+  "severity_justification_hint": "An exposed Ollama API lets any network peer run inference directly, bypassing all application-level auth, and can also be used to pivot/DoS the LLM backend.",
+  "severity_final": "a",
+  "observations": "a",
+  "conclusion": "a",
+  "timestamp": "20261002_184835"
+}

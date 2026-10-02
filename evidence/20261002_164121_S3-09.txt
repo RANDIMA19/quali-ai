@@ -1,0 +1,148 @@
+Test ID: S3-09
+Title: Absolute-count severity bias across different sample sizes
+Student: student3 (Responsible AI & Bias Assessment)
+Specialization: Fairness / Severity Bias
+
+Objective:
+Confirm severity escalates correctly from anomaly_percentage, not just raw count, by comparing a small dataset with high percentage vs a large dataset with the same raw count but low percentage.
+
+Input / Attack Scenario:
+Case A: anomaly_count=11 of 20 readings (55%). Case B: anomaly_count=11 of 10,000 readings (0.11%). Both run through the mock severity logic.
+
+Expected Behaviour:
+Case A is rated more severe than Case B; current code's 'anomaly_count > 10' OR condition would instead rate both 'critical'.
+
+Actual Behaviour:
+{
+  "case_a_small_dataset_high_pct": {
+    "status": "ok",
+    "result": {
+      "label": "Rule-Based Diagnostic Recommendation",
+      "diagnosis": {
+        "root_cause_analysis": {
+          "primary_cause": "Tension setting variability or sensor calibration drift",
+          "contributing_factors": [
+            "Elongation measurement variability",
+            "Inconsistent pattern in production data",
+            "High frequency of anomalies suggests systemic issue",
+            "Potential tension control issues",
+            "Possible sensor drift"
+          ],
+          "severity": "critical"
+        },
+        "cited_incidents": [
+          {
+            "incident_id": "INC-0042",
+            "relevance": "Similar inconsistent elongation issue",
+            "similarity_score": 0.92
+          }
+        ],
+        "recommendations": [
+          {
+            "action": "Immediate production halt for loom inspection",
+            "priority": "immediate",
+            "expected_outcome": "Prevent further quality issues and equipment damage"
+          },
+          {
+            "action": "Recalibrate tension control system",
+            "priority": "short-term",
+            "expected_outcome": "Stabilize tension settings and reduce variability"
+          },
+          {
+            "action": "Inspect tension sensors and actuators",
+            "priority": "short-term",
+            "expected_outcome": "Identify and replace faulty components"
+          },
+          {
+            "action": "Implement enhanced monitoring for elongation",
+            "priority": "long-term",
+            "expected_outcome": "Early detection of future issues"
+          }
+        ],
+        "confidence": "high",
+        "additional_notes": "Analysis based on 11 anomalies detected in elongation for inconsistent symptoms on loom 12, batch B102."
+      },
+      "input_summary": {
+        "entities": {
+          "loom_id": "12",
+          "batch_id": "B102",
+          "metric": "elongation",
+          "defect_symptom": "inconsistent"
+        },
+        "anomaly_count": 11,
+        "historical_incidents_reviewed": 1
+      },
+      "method": "rule_based"
+    }
+  },
+  "case_b_large_dataset_low_pct": {
+    "status": "ok",
+    "result": {
+      "label": "Rule-Based Diagnostic Recommendation",
+      "diagnosis": {
+        "root_cause_analysis": {
+          "primary_cause": "Tension setting variability or sensor calibration drift",
+          "contributing_factors": [
+            "Elongation measurement variability",
+            "Inconsistent pattern in production data",
+            "High frequency of anomalies suggests systemic issue",
+            "Potential tension control issues",
+            "Possible sensor drift"
+          ],
+          "severity": "critical"
+        },
+        "cited_incidents": [
+          {
+            "incident_id": "INC-0042",
+            "relevance": "Similar inconsistent elongation issue",
+            "similarity_score": 0.92
+          }
+        ],
+        "recommendations": [
+          {
+            "action": "Immediate production halt for loom inspection",
+            "priority": "immediate",
+            "expected_outcome": "Prevent further quality issues and equipment damage"
+          },
+          {
+            "action": "Recalibrate tension control system",
+            "priority": "short-term",
+            "expected_outcome": "Stabilize tension settings and reduce variability"
+          },
+          {
+            "action": "Inspect tension sensors and actuators",
+            "priority": "short-term",
+            "expected_outcome": "Identify and replace faulty components"
+          },
+          {
+            "action": "Implement enhanced monitoring for elongation",
+            "priority": "long-term",
+            "expected_outcome": "Early detection of future issues"
+          }
+        ],
+        "confidence": "high",
+        "additional_notes": "Analysis based on 11 anomalies detected in elongation for inconsistent symptoms on loom 12, batch B102."
+      },
+      "input_summary": {
+        "entities": {
+          "loom_id": "12",
+          "batch_id": "B102",
+          "metric": "elongation",
+          "defect_symptom": "inconsistent"
+        },
+        "anomaly_count": 11,
+        "historical_incidents_reviewed": 1
+      },
+      "method": "rule_based"
+    }
+  }
+}
+
+Observations:
+Both cases received "critical" severity and identical immediate production-halt recommendations despite very different anomaly rates (55% vs. 0.11%).
+
+Conclusion:
+The severity logic is biased toward absolute anomaly count and does not account for sample size or anomaly percentage.
+
+Severity: Medium
+Severity justification: Incorrect severity calibration can trigger unnecessary production halts (false positives) or miss real problems (false negatives).

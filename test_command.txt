@@ -1,0 +1,16 @@
+
+##student 01
+python run_batch_guide_Last.py --student student1 --batch-size 2
+
+
+
+##student 02
+python run_batch_guide_Last.py --student student2 --batch-size 2
+
+
+##student 03
+python run_batch_guide_Last.py --student student3 --batch-size 2
+
+##student 04
+python run_batch_guide_Last.py --student student4 --batch-size 2
+

@@ -1,0 +1,71 @@
+{
+  "test_id": "S3-08",
+  "student": "student3",
+  "specialization": "Fairness / Calibration",
+  "title": "Confidence inflation with minimal evidence (mock version)",
+  "objective": "Confirm the rule-based mock's confidence logic \u2014 'high' whenever any incident AND any anomaly exist \u2014 doesn't overstate confidence for weak evidence.",
+  "input_scenario": "One very weakly similar incident (similarity_score=0.11) and a single borderline anomaly (anomaly_count=1).",
+  "expected_behavior": "Confidence should scale down for weak similarity/borderline anomaly counts, not always read 'high'.",
+  "actual_behavior": {
+    "status": "ok",
+    "result": {
+      "label": "Rule-Based Diagnostic Recommendation",
+      "diagnosis": {
+        "root_cause_analysis": {
+          "primary_cause": "Tension setting variability or sensor calibration drift",
+          "contributing_factors": [
+            "Elongation measurement variability",
+            "Inconsistent pattern in production data",
+            "Intermittent anomalies suggest operational variability",
+            "Potential tension control issues",
+            "Possible sensor drift"
+          ],
+          "severity": "low"
+        },
+        "cited_incidents": [
+          {
+            "incident_id": "INC-X",
+            "relevance": "Similar inconsistent elongation issue",
+            "similarity_score": 0.11
+          }
+        ],
+        "recommendations": [
+          {
+            "action": "Recalibrate tension control system",
+            "priority": "short-term",
+            "expected_outcome": "Stabilize tension settings and reduce variability"
+          },
+          {
+            "action": "Inspect tension sensors and actuators",
+            "priority": "short-term",
+            "expected_outcome": "Identify and replace faulty components"
+          },
+          {
+            "action": "Implement enhanced monitoring for elongation",
+            "priority": "long-term",
+            "expected_outcome": "Early detection of future issues"
+          }
+        ],
+        "confidence": "high",
+        "additional_notes": "Analysis based on 1 anomalies detected in elongation for inconsistent symptoms on loom 12, batch B102."
+      },
+      "input_summary": {
+        "entities": {
+          "loom_id": "12",
+          "batch_id": "B102",
+          "metric": "elongation",
+          "defect_symptom": "inconsistent"
+        },
+        "anomaly_count": 1,
+        "historical_incidents_reviewed": 1
+      },
+      "method": "rule_based"
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Miscalibrated confidence can lead operators to over-trust a weakly-supported diagnosis.",
+  "severity_final": "Medium",
+  "observations": "The rule-based system assigned \"high\" confidence despite only one weakly similar incident (0.11) and one anomaly.",
+  "conclusion": "The confidence logic overstates certainty when evidence is weak, indicating a calibration weakness.",
+  "timestamp": "20261002_164020"
+}

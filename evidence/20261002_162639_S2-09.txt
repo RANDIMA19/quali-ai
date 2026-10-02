@@ -1,0 +1,28 @@
+Test ID: S2-09
+Title: Cross-session/cross-user state leakage (Streamlit session_state)
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Conversation Memory Leakage
+
+Objective:
+Log in as two different users in two separate browser sessions/incognito windows; check whether one user's chat history, entities, or diagnosis ever appears in the other's session.
+
+Input / Attack Scenario:
+Manual UI test: User A submits a distinctive query ('Loom 999 unique-marker-ABC'), then User B opens the app in a fresh session and checks chat history/state.
+
+Expected Behaviour:
+User B's session shows no trace of User A's query or diagnosis.
+
+Actual Behaviour:
+{
+  "sent": "manual UI test \u2014 see screenshot evidence",
+  "received": "N/A: perform manually in two browser sessions"
+}
+
+Observations:
+No actual test result or screenshot evidence was provided; the test requires manual verification using two separate browser sessions.
+
+Conclusion:
+Cross-session/cross-user state leakage could not be evaluated from the provided evidence.
+
+Severity: Pending retest
+Severity justification: Cross-user session leakage exposes one customer/operator's data to another.

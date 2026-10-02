@@ -1,0 +1,30 @@
+{
+  "test_id": "S2-12",
+  "student": "student2",
+  "specialization": "API Security / Data Protection",
+  "title": "CORS misconfiguration check",
+  "objective": "Inspect whether the API returns permissive CORS headers (Access-Control-Allow-Origin: *) alongside credentialed endpoints.",
+  "input_scenario": "Send OPTIONS/GET to /diagnose and inspect response headers for Access-Control-* values.",
+  "expected_behavior": "CORS is restricted to known origins; wildcard '*' is not paired with credentialed requests.",
+  "actual_behavior": {
+    "status": "ok",
+    "http_status": 405,
+    "headers": {
+      "date": "Fri, 02 Oct 2026 11:00:54 GMT",
+      "server": "uvicorn",
+      "allow": "POST",
+      "content-length": "31",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "detail": "Method Not Allowed"
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Permissive CORS with credentials allows malicious sites to make authenticated requests on a victim's behalf.",
+  "severity_final": "Low",
+  "observations": "The request returned HTTP 405 Method Not Allowed, and no Access-Control-Allow-Origin or other CORS headers were present in the response.",
+  "conclusion": "No permissive CORS configuration was observed, although the CORS policy was not fully evaluated because the requested method was rejected.",
+  "timestamp": "20261002_163356"
+}

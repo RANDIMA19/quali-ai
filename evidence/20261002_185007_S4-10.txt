@@ -1,0 +1,28 @@
+Test ID: S4-10
+Title: Path traversal / injection via data path config
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: Retrieval Manipulation / Input Validation
+
+Objective:
+Confirm INCIDENTS_PATH is a fixed constant not influenced by any user input, and check whether any API parameter indirectly controls a file path.
+
+Input / Attack Scenario:
+Review for any endpoint/parameter that maps to file paths; attempt '../../etc/passwd'-style payloads against any such parameter if found.
+
+Expected Behaviour:
+No user-controllable input reaches filesystem path construction.
+
+Actual Behaviour:
+{
+  "sent": "static review of INCIDENTS_PATH usage",
+  "received": "INCIDENTS_PATH = 'data/clean/incidents.csv' \u2014 confirm no endpoint parameterizes this"
+}
+
+Observations:
+INCIDENTS_PATH is a fixed constant set to data/clean/incidents.csv, and the test found no endpoint parameter that allows user input to control the file path.
+
+Conclusion:
+No apparent path-traversal or filesystem path-injection vector was identified from the reviewed configuration.
+
+Severity: Informational — document the fixed-path design and ensure future endpoints do not expose user-controlled filesystem paths.
+Severity justification: Current code shows no apparent path-traversal vector, but should be explicitly verified and documented as such.

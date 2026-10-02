@@ -1,0 +1,38 @@
+{
+  "test_id": "S4-05",
+  "student": "student4",
+  "specialization": "Retrieval Accuracy",
+  "title": "Text-truncation edge case (long reason/action_plan)",
+  "objective": "Confirm whether embedding truncation (MiniLM ~256 token limit) causes the action_plan half of a combined_text to be dropped for very long incident reasons, degrading retrieval relevance for action-plan-based queries.",
+  "input_scenario": "Query specifically matching wording that would only appear in a long incident's action_plan (constructed test incident, if test data can be added) vs a query matching its reason.",
+  "expected_behavior": "Both halves of combined_text meaningfully contribute to retrieval; truncation should not silently drop the action_plan content.",
+  "actual_behavior": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-0528",
+        "reason": "1mtr weight issue",
+        "action_plan": "",
+        "similarity_score": 0.18500995635986328
+      },
+      {
+        "incident_id": "INC-0606",
+        "reason": "1mtr weight issue",
+        "action_plan": "",
+        "similarity_score": 0.18500995635986328
+      },
+      {
+        "incident_id": "INC-1303",
+        "reason": "1mtr weight issue",
+        "action_plan": "",
+        "similarity_score": 0.18500995635986328
+      }
+    ]
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Silent truncation reduces retrieval recall for a whole class of queries without any visible error.",
+  "severity_final": "a",
+  "observations": "a",
+  "conclusion": "a",
+  "timestamp": "20261002_184656"
+}

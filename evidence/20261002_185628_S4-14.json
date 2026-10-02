@@ -1,0 +1,38 @@
+{
+  "test_id": "S4-14",
+  "student": "student4",
+  "specialization": "API Security",
+  "title": "Denial-of-service via oversized query to the embedding model",
+  "objective": "Measure response time and stability when retrieve() is called with an extremely long query string.",
+  "input_scenario": "A query of ~50,000 characters.",
+  "expected_behavior": "Request is rejected/truncated quickly with a clear error, not left to consume excessive CPU/time or crash the worker.",
+  "actual_behavior": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-1725",
+        "reason": "Order Completed",
+        "action_plan": "",
+        "similarity_score": 0.11158871650695801
+      },
+      {
+        "incident_id": "INC-1726",
+        "reason": "Order Completed",
+        "action_plan": "",
+        "similarity_score": 0.11158871650695801
+      },
+      {
+        "incident_id": "INC-1727",
+        "reason": "Order Completed",
+        "action_plan": "",
+        "similarity_score": 0.11158871650695801
+      }
+    ]
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Unbounded input size on an embedding call is a resource-exhaustion / availability risk.",
+  "severity_final": "Medium",
+  "observations": "The ~50,000-character query was processed successfully and returned results without an error or crash.",
+  "conclusion": "The system accepts oversized queries without apparent input-length validation, indicating potential resource-exhaustion risk.",
+  "timestamp": "20261002_185628"
+}

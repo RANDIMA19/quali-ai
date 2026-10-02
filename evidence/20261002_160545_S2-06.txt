@@ -1,0 +1,54 @@
+Test ID: S2-06
+Title: Stack trace / internal path disclosure
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Sensitive Information Leakage
+
+Objective:
+Trigger a backend error (e.g. malformed JSON body, wrong content-type) and inspect whether the response leaks a Python stack trace, file paths, or library versions.
+
+Input / Attack Scenario:
+POST /diagnose with an invalid/malformed JSON body (raw_payload intentionally broken).
+
+Expected Behaviour:
+Generic error message only (e.g. '400 Bad Request'); no stack trace, file path, or internal module names in the response body.
+
+Actual Behaviour:
+{
+  "sent": "malformed body",
+  "received": {
+    "status": "ok",
+    "http_status": 422,
+    "headers": {
+      "date": "Fri, 02 Oct 2026 10:33:27 GMT",
+      "server": "uvicorn",
+      "content-length": "158",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "detail": [
+        {
+          "type": "json_invalid",
+          "loc": [
+            "body",
+            1
+          ],
+          "msg": "JSON decode error",
+          "input": {},
+          "ctx": {
+            "error": "Expecting property name enclosed in double quotes"
+          }
+        }
+      ]
+    }
+  }
+}
+
+Observations:
+The API returned HTTP 422 with a JSON validation error and did not expose a stack trace, file path, library version, or internal module details.
+
+Conclusion:
+No stack trace or internal path disclosure was observed.
+
+Severity: Low
+Severity justification: Verbose errors assist attackers in fingerprinting the stack (e.g. revealing Agent 3's relative CSV path, Ollama URL).

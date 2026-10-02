@@ -1,0 +1,39 @@
+Test ID: S2-12
+Title: CORS misconfiguration check
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: API Security / Data Protection
+
+Objective:
+Inspect whether the API returns permissive CORS headers (Access-Control-Allow-Origin: *) alongside credentialed endpoints.
+
+Input / Attack Scenario:
+Send OPTIONS/GET to /diagnose and inspect response headers for Access-Control-* values.
+
+Expected Behaviour:
+CORS is restricted to known origins; wildcard '*' is not paired with credentialed requests.
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "http_status": 405,
+  "headers": {
+    "date": "Fri, 02 Oct 2026 11:00:54 GMT",
+    "server": "uvicorn",
+    "allow": "POST",
+    "content-length": "31",
+    "content-type": "application/json",
+    "vary": "Origin"
+  },
+  "body": {
+    "detail": "Method Not Allowed"
+  }
+}
+
+Observations:
+The request returned HTTP 405 Method Not Allowed, and no Access-Control-Allow-Origin or other CORS headers were present in the response.
+
+Conclusion:
+No permissive CORS configuration was observed, although the CORS policy was not fully evaluated because the requested method was rejected.
+
+Severity: Low
+Severity justification: Permissive CORS with credentials allows malicious sites to make authenticated requests on a victim's behalf.

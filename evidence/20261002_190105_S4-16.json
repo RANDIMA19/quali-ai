@@ -1,0 +1,47 @@
+{
+  "test_id": "S4-16",
+  "student": "student4",
+  "specialization": "API Security",
+  "title": "HTTP method / verb tampering on /diagnose",
+  "objective": "Test whether /diagnose accepts unexpected HTTP methods (GET, PUT, DELETE) that might bypass intended request validation built only for POST.",
+  "input_scenario": "Send GET and PUT requests to /diagnose instead of POST.",
+  "expected_behavior": "405 Method Not Allowed for any non-POST method.",
+  "actual_behavior": {
+    "get": {
+      "status": "ok",
+      "http_status": 405,
+      "headers": {
+        "date": "Fri, 02 Oct 2026 13:28:09 GMT",
+        "server": "uvicorn",
+        "allow": "POST",
+        "content-length": "31",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": "Method Not Allowed"
+      }
+    },
+    "put": {
+      "status": "ok",
+      "http_status": 405,
+      "headers": {
+        "date": "Fri, 02 Oct 2026 13:28:09 GMT",
+        "server": "uvicorn",
+        "allow": "POST",
+        "content-length": "31",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": "Method Not Allowed"
+      }
+    }
+  },
+  "severity_hint": "Low",
+  "severity_justification_hint": "Method tampering acceptance is typically low-impact alone but indicates lax endpoint configuration.",
+  "severity_final": "Low",
+  "observations": "GET and PUT requests to /diagnose were correctly rejected with HTTP 405 Method Not Allowed, with the Allow: POST header.",
+  "conclusion": "HTTP method tampering was properly handled, and the endpoint accepts only the intended POST method.",
+  "timestamp": "20261002_190105"
+}

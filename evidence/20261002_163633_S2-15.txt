@@ -1,0 +1,42 @@
+Test ID: S2-15
+Title: Token expiry / long-lived token test
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Authentication Weaknesses
+
+Objective:
+Check whether issued tokens have a reasonable expiry, by decoding a JWT (if used) or testing an old token after a delay.
+
+Input / Attack Scenario:
+Log in, inspect token payload for an 'exp' claim (if JWT) or wait and resubmit.
+
+Expected Behaviour:
+Tokens expire within a reasonable window (e.g. not indefinitely valid).
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "http_status": 200,
+  "headers": {
+    "date": "Fri, 02 Oct 2026 11:05:56 GMT",
+    "server": "uvicorn",
+    "content-length": "214",
+    "content-type": "application/json",
+    "vary": "Origin"
+  },
+  "body": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsibWFuYWdlciJdLCJleHAiOjE3OTA5NDA5NTd9.e2ZHpgH1liD9ZS5a6S33DkOw_zfITt0_ytIdLPf4YpM",
+    "token_type": "bearer",
+    "roles": [
+      "manager"
+    ]
+  }
+}
+
+Observations:
+The issued JWT contains an exp claim, indicating that the access token has a defined expiration time; no evidence of an indefinitely valid token was observed.
+
+Conclusion:
+Token expiry is implemented, although the evidence does not show the exact validity duration or confirm behavior after expiration.
+
+Severity: Medium
+Severity justification: Indefinitely valid tokens increase the impact window of any token leak.

@@ -1,0 +1,57 @@
+Test ID: S2-01
+Title: Default/weak credential check
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Authentication Weaknesses
+
+Objective:
+Verify /token rejects common default credentials (admin/admin, test/test).
+
+Input / Attack Scenario:
+POST /token with username=admin, password=admin.
+
+Expected Behaviour:
+401/403 rejection; no token issued.
+
+Actual Behaviour:
+{
+  "sent": {
+    "username": "admin",
+    "password": "admin"
+  },
+  "received": {
+    "status": "ok",
+    "http_status": 422,
+    "headers": {
+      "date": "Fri, 02 Oct 2026 10:54:23 GMT",
+      "server": "uvicorn",
+      "content-length": "154",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "detail": [
+        {
+          "type": "string_too_short",
+          "loc": [
+            "body",
+            "password"
+          ],
+          "msg": "String should have at least 6 characters",
+          "input": "admin",
+          "ctx": {
+            "min_length": 6
+          }
+        }
+      ]
+    }
+  }
+}
+
+Observations:
+A
+
+Conclusion:
+A
+
+Severity: low
+Severity justification: A successful default-credential login is immediate full-system compromise.

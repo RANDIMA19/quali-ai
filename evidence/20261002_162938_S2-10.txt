@@ -1,0 +1,38 @@
+Test ID: S2-10
+Title: Sensitive data in server-side console logging
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: User Data Protection
+
+Objective:
+Check whether full prompts (which may embed user-submitted free text) or embeddings-indexing progress are printed to stdout/logs in plaintext (Agent 3's print(f'Indexed...'), Agent 4's print(f'LLM approach failed...')).
+
+Input / Attack Scenario:
+Trigger local retrieval initialization and a forced Agent 4 LLM failure; inspect console/log output.
+
+Expected Behaviour:
+No sensitive user-submitted content is written to logs in plaintext without redaction/access control on those logs.
+
+Actual Behaviour:
+{
+  "sent": "trigger initialize_db() and a forced LLM failure",
+  "received": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-2064",
+        "reason": "Yarn Dust",
+        "action_plan": "",
+        "similarity_score": 0.15731167793273926
+      }
+    ]
+  }
+}
+
+Observations:
+The test returned a normal retrieval result, but no console/log output was provided to verify whether user prompts or sensitive data were logged.
+
+Conclusion:
+Sensitive data logging could not be conclusively evaluated from the provided evidence.
+
+Severity: Pending retest
+Severity justification: Logging itself isn't a breach, but unprotected plaintext logs of user queries are a privacy exposure if log access isn't restricted.

@@ -1,0 +1,30 @@
+Test ID: S2-13
+Title: Transport security for local Ollama call
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Communication Protocol Security
+
+Objective:
+Confirm that the call to OLLAMA_URL is plain HTTP and assess whether any sensitive data traverses a non-local network as a result.
+
+Input / Attack Scenario:
+Inspect agent4's OLLAMA_URL default/config and network path from the API server to the Ollama host.
+
+Expected Behaviour:
+Ollama traffic stays on localhost/a trusted private network; if it ever crosses an untrusted network, it must use TLS.
+
+Actual Behaviour:
+{
+  "sent": "inspect OLLAMA_URL config",
+  "received": {
+    "ollama_url_default": "http://localhost:11434/api/generate (from agent4 source)"
+  }
+}
+
+Observations:
+Agent 4 is configured to use http://localhost:11434/api/generate, indicating unencrypted HTTP communication to a local Ollama service.
+
+Conclusion:
+The configuration is low risk when Ollama remains strictly on localhost; no evidence shows the traffic crossing an untrusted network.
+
+Severity: Low
+Severity justification: Low risk if strictly localhost; escalate to High if Ollama is ever reachable over an untrusted network without TLS.

@@ -1,0 +1,35 @@
+{
+  "test_id": "S2-07",
+  "student": "student2",
+  "specialization": "Sensitive Information Leakage",
+  "title": "LLM raw_response leakage on parse failure",
+  "objective": "Trigger Agent 4's JSONDecodeError path (malformed LLM output) and check whether 'raw_response' \u2014 potentially containing fragments of the full prompt or unintended content \u2014 reaches the end user via the API.",
+  "input_scenario": "Craft historical_incidents/entities likely to confuse the LLM's JSON output, run locally through synthesize_diagnosis, inspect the error dict's 'raw_response' field.",
+  "expected_behavior": "If an API wraps this, raw LLM output is not forwarded verbatim to end users; it is logged server-side only.",
+  "actual_behavior": {
+    "sent": "entities/incidents likely to produce malformed JSON",
+    "received": {
+      "status": "ok",
+      "result": {
+        "label": "AI-Assisted Diagnostic Recommendation",
+        "error": "HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+        "input_summary": {
+          "entities": {
+            "loom_id": null,
+            "batch_id": null,
+            "metric": null,
+            "defect_symptom": null
+          },
+          "anomaly_count": 0,
+          "historical_incidents_reviewed": 0
+        }
+      }
+    }
+  },
+  "severity_hint": "Low",
+  "severity_justification_hint": "Depends entirely on whether the API layer forwards this field to clients; flag as informational if it does not.",
+  "severity_final": "Low",
+  "observations": "a",
+  "conclusion": "a",
+  "timestamp": "20261002_162517"
+}

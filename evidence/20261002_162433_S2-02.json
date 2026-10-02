@@ -1,0 +1,59 @@
+{
+  "test_id": "S2-02",
+  "student": "student2",
+  "specialization": "Authentication Weaknesses",
+  "title": "Account enumeration via error message differences",
+  "objective": "Check whether the error for 'unknown username' differs from 'wrong password', which lets an attacker enumerate valid accounts.",
+  "input_scenario": "Two logins: (a) known-invalid username + any password, (b) a likely-valid username + wrong password; compare response bodies/status codes.",
+  "expected_behavior": "Identical generic error message/status for both cases.",
+  "actual_behavior": {
+    "sent": {
+      "attempt_a": {
+        "username": "definitely_not_a_real_user_xyz",
+        "password": "whatever"
+      },
+      "attempt_b": {
+        "username": "manager",
+        "password": "wrong_password_123"
+      }
+    },
+    "received": {
+      "a": {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Fri, 02 Oct 2026 10:54:31 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      },
+      "b": {
+        "status": "ok",
+        "http_status": 401,
+        "headers": {
+          "date": "Fri, 02 Oct 2026 10:54:31 GMT",
+          "server": "uvicorn",
+          "www-authenticate": "Bearer",
+          "content-length": "43",
+          "content-type": "application/json",
+          "vary": "Origin"
+        },
+        "body": {
+          "detail": "Incorrect username or password"
+        }
+      }
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Enumeration aids credential-stuffing/brute-force attacks but doesn't grant access on its own.",
+  "severity_final": "a",
+  "observations": "a",
+  "conclusion": "a",
+  "timestamp": "20261002_162433"
+}

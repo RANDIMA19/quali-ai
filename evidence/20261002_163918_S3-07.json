@@ -1,0 +1,71 @@
+{
+  "test_id": "S3-07",
+  "student": "student3",
+  "specialization": "Transparency",
+  "title": "LLM vs rule-based method disclosure",
+  "objective": "Verify the output always clearly discloses whether the diagnosis came from the LLM path ('label'/'method') or the rule-based fallback, especially after a silent fallback.",
+  "input_scenario": "Call synthesize_diagnosis_mock(use_llm=True) in an environment where the LLM import/call is expected to fail.",
+  "expected_behavior": "Output clearly indicates rule-based fallback occurred (not silently presented as an LLM-backed diagnosis).",
+  "actual_behavior": {
+    "status": "ok",
+    "result": {
+      "label": "Rule-Based Diagnostic Recommendation",
+      "diagnosis": {
+        "root_cause_analysis": {
+          "primary_cause": "Tension setting variability or sensor calibration drift",
+          "contributing_factors": [
+            "Elongation measurement variability",
+            "Inconsistent pattern in production data",
+            "Intermittent anomalies suggest operational variability",
+            "Potential tension control issues",
+            "Possible sensor drift"
+          ],
+          "severity": "medium"
+        },
+        "cited_incidents": [
+          {
+            "incident_id": "INC-0042",
+            "relevance": "Similar inconsistent elongation issue",
+            "similarity_score": 0.92
+          }
+        ],
+        "recommendations": [
+          {
+            "action": "Recalibrate tension control system",
+            "priority": "short-term",
+            "expected_outcome": "Stabilize tension settings and reduce variability"
+          },
+          {
+            "action": "Inspect tension sensors and actuators",
+            "priority": "short-term",
+            "expected_outcome": "Identify and replace faulty components"
+          },
+          {
+            "action": "Implement enhanced monitoring for elongation",
+            "priority": "long-term",
+            "expected_outcome": "Early detection of future issues"
+          }
+        ],
+        "confidence": "high",
+        "additional_notes": "Analysis based on 5 anomalies detected in elongation for inconsistent symptoms on loom 12, batch B102."
+      },
+      "input_summary": {
+        "entities": {
+          "loom_id": "12",
+          "batch_id": "B102",
+          "metric": "elongation",
+          "defect_symptom": "inconsistent"
+        },
+        "anomaly_count": 5,
+        "historical_incidents_reviewed": 1
+      },
+      "method": "rule_based"
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Users (engineers/managers) may trust an LLM-backed diagnosis more than a rule-based one; silent fallback is a transparency failure.",
+  "severity_final": "Low",
+  "observations": "The output clearly identifies the diagnosis as \"Rule-Based Diagnostic Recommendation\" and specifies \"method\": \"rule_based\", making the fallback path transparent.",
+  "conclusion": "The system clearly disclosed the rule-based fallback instead of presenting it as an LLM-backed diagnosis.",
+  "timestamp": "20261002_163918"
+}

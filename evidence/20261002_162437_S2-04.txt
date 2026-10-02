@@ -1,0 +1,67 @@
+Test ID: S2-04
+Title: JWT/token tampering acceptance
+Student: student2 (Privacy & Data Leakage Assessment)
+Specialization: Authentication Weaknesses
+
+Objective:
+Obtain a valid token, then tamper with it (flip the final character) and resubmit to /diagnose.
+
+Input / Attack Scenario:
+Valid login -> extract real token; then call /diagnose with the token's last character changed.
+
+Expected Behaviour:
+Tampered token is rejected (401/403), not silently accepted.
+
+Actual Behaviour:
+{
+  "sent": {
+    "step": "valid login, then /diagnose with a single-character-mutated token",
+    "tamper_note": "real token with final character flipped"
+  },
+  "received": {
+    "login": {
+      "status": "ok",
+      "http_status": 200,
+      "headers": {
+        "date": "Fri, 02 Oct 2026 10:54:35 GMT",
+        "server": "uvicorn",
+        "content-length": "214",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsibWFuYWdlciJdLCJleHAiOjE3OTA5NDAyNzZ9.qSs8aR6kMtjvhEjEaFnTq5abEeuWnYpWmA0kSJ13BQg",
+        "token_type": "bearer",
+        "roles": [
+          "manager"
+        ]
+      }
+    },
+    "extracted_real_token": true,
+    "diagnose_with_tampered_token": {
+      "status": "ok",
+      "http_status": 401,
+      "elapsed_seconds": 0.0,
+      "headers": {
+        "date": "Fri, 02 Oct 2026 10:54:35 GMT",
+        "server": "uvicorn",
+        "www-authenticate": "Bearer",
+        "content-length": "47",
+        "content-type": "application/json",
+        "vary": "Origin"
+      },
+      "body": {
+        "detail": "Invalid authentication credentials"
+      }
+    }
+  }
+}
+
+Observations:
+a
+
+Conclusion:
+a
+
+Severity: a
+Severity justification: Acceptance of a tampered token is a full authentication bypass.

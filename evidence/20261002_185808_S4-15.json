@@ -1,0 +1,33 @@
+{
+  "test_id": "S4-15",
+  "student": "student4",
+  "specialization": "Reliability / Error Handling",
+  "title": "Non-numeric/malformed incident_id crash test",
+  "objective": "Confirm detect_anomalies' int(idx) cast (Agent 2) and any ID handling in Agent 3 degrade gracefully rather than raising unhandled exceptions when IDs/indices are non-numeric.",
+  "input_scenario": "Call agent2.detect_anomalies on a DataFrame with a non-integer (e.g. string timestamp) index.",
+  "expected_behavior": "A clear, handled error/validation message, not an unhandled TypeError/ValueError bubbling up to the API layer.",
+  "actual_behavior": {
+    "status": "ok",
+    "result": {
+      "metric": "elongation",
+      "threshold": 2.0,
+      "total_readings": 5,
+      "anomaly_count": 0,
+      "anomaly_percentage": 0.0,
+      "anomalies": [],
+      "statistics": {
+        "mean": 109.8,
+        "std": 22.521101216414795,
+        "min": 98.0,
+        "max": 150.0,
+        "count": 5
+      }
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "An unhandled crash reaching the API is an availability issue and may leak a stack trace (see S2-06).",
+  "severity_final": "Low",
+  "observations": "The non-numeric DataFrame index was handled successfully, and Agent 2 returned a normal anomaly-analysis result without raising an exception.",
+  "conclusion": "No crash or unhandled error was observed for malformed/non-numeric indices.",
+  "timestamp": "20261002_185808"
+}

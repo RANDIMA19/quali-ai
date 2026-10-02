@@ -1,0 +1,28 @@
+Test ID: S4-12
+Title: Duplicate incident_id overwrite behavior
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: Source Reliability / Data Integrity
+
+Objective:
+Confirm what happens when incidents.csv contains two rows with the same incident_id — does ChromaDB silently overwrite one, losing a real historical record?
+
+Input / Attack Scenario:
+Review initialize_db(): collection.add() is called with df['incident_id'].tolist() as ids; check for duplicate IDs in the actual incidents.csv.
+
+Expected Behaviour:
+Duplicate IDs are detected and flagged/rejected before indexing, not silently overwritten.
+
+Actual Behaviour:
+{
+  "sent": "check incidents.csv for duplicate incident_id values",
+  "received": "manual/pandas check: df['incident_id'].duplicated().sum()"
+}
+
+Observations:
+The test did not actually verify whether duplicate incident_id values exist or whether ChromaDB overwrites/rejects them. The recorded evidence only specifies the pandas check to perform df['incident_id'].duplicated().sum()
+
+Conclusion:
+This finding is inconclusive. There is insufficient evidence to confirm a duplicate-ID data-integrity vulnerability
+
+Severity: Informational / Unconfirmed
+Severity justification: Silent data loss in the historical-incident knowledge base undermines the reliability of every downstream citation.

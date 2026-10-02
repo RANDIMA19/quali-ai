@@ -1,0 +1,19 @@
+{
+  "test_id": "S4-10",
+  "student": "student4",
+  "specialization": "Retrieval Manipulation / Input Validation",
+  "title": "Path traversal / injection via data path config",
+  "objective": "Confirm INCIDENTS_PATH is a fixed constant not influenced by any user input, and check whether any API parameter indirectly controls a file path.",
+  "input_scenario": "Review for any endpoint/parameter that maps to file paths; attempt '../../etc/passwd'-style payloads against any such parameter if found.",
+  "expected_behavior": "No user-controllable input reaches filesystem path construction.",
+  "actual_behavior": {
+    "sent": "static review of INCIDENTS_PATH usage",
+    "received": "INCIDENTS_PATH = 'data/clean/incidents.csv' \u2014 confirm no endpoint parameterizes this"
+  },
+  "severity_hint": "Informational",
+  "severity_justification_hint": "Current code shows no apparent path-traversal vector, but should be explicitly verified and documented as such.",
+  "severity_final": "Informational \u2014 document the fixed-path design and ensure future endpoints do not expose user-controlled filesystem paths.",
+  "observations": "INCIDENTS_PATH is a fixed constant set to data/clean/incidents.csv, and the test found no endpoint parameter that allows user input to control the file path.",
+  "conclusion": "No apparent path-traversal or filesystem path-injection vector was identified from the reviewed configuration.",
+  "timestamp": "20261002_185007"
+}

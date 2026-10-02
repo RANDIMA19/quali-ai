@@ -1,0 +1,50 @@
+Test ID: S4-13
+Title: Index staleness after incidents.csv update
+Student: student4 (Information Retrieval & Security Assessment)
+Specialization: Retrieval Accuracy
+
+Objective:
+Confirm whether newly appended rows in incidents.csv are picked up without a full service restart, given initialize_db()'s 'already initialized' guard.
+
+Input / Attack Scenario:
+Add a new row to incidents.csv at runtime, then call retrieve() with a query matching only the new row, without restarting the process.
+
+Expected Behaviour:
+Either the new incident becomes retrievable (live reindexing) or the system clearly documents that a restart/reindex is required.
+
+Actual Behaviour:
+{
+  "sent": "append a new test row to incidents.csv, then query for it without restarting the process",
+  "received": {
+    "status": "ok",
+    "results": [
+      {
+        "incident_id": "INC-1684",
+        "reason": "Fastness Fail",
+        "action_plan": "",
+        "similarity_score": 0.38165342807769775
+      },
+      {
+        "incident_id": "INC-2669",
+        "reason": "Fastness Fail",
+        "action_plan": "",
+        "similarity_score": 0.38165342807769775
+      },
+      {
+        "incident_id": "INC-2430",
+        "reason": "Patches",
+        "action_plan": "",
+        "similarity_score": 0.2554745078086853
+      }
+    ]
+  }
+}
+
+Observations:
+The newly appended test row was not returned; retrieval returned existing incidents instead.
+
+Conclusion:
+The ChromaDB index remains stale after incidents.csv is updated and requires reinitialization/reindexing.
+
+Severity: Low
+Severity justification: Staleness is an operational/reliability concern more than a security one, but affects retrieval accuracy and trust.

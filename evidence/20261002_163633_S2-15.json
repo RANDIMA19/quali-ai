@@ -1,0 +1,33 @@
+{
+  "test_id": "S2-15",
+  "student": "student2",
+  "specialization": "Authentication Weaknesses",
+  "title": "Token expiry / long-lived token test",
+  "objective": "Check whether issued tokens have a reasonable expiry, by decoding a JWT (if used) or testing an old token after a delay.",
+  "input_scenario": "Log in, inspect token payload for an 'exp' claim (if JWT) or wait and resubmit.",
+  "expected_behavior": "Tokens expire within a reasonable window (e.g. not indefinitely valid).",
+  "actual_behavior": {
+    "status": "ok",
+    "http_status": 200,
+    "headers": {
+      "date": "Fri, 02 Oct 2026 11:05:56 GMT",
+      "server": "uvicorn",
+      "content-length": "214",
+      "content-type": "application/json",
+      "vary": "Origin"
+    },
+    "body": {
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsibWFuYWdlciJdLCJleHAiOjE3OTA5NDA5NTd9.e2ZHpgH1liD9ZS5a6S33DkOw_zfITt0_ytIdLPf4YpM",
+      "token_type": "bearer",
+      "roles": [
+        "manager"
+      ]
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Indefinitely valid tokens increase the impact window of any token leak.",
+  "severity_final": "Medium",
+  "observations": "The issued JWT contains an exp claim, indicating that the access token has a defined expiration time; no evidence of an indefinitely valid token was observed.",
+  "conclusion": "Token expiry is implemented, although the evidence does not show the exact validity duration or confirm behavior after expiration.",
+  "timestamp": "20261002_163633"
+}

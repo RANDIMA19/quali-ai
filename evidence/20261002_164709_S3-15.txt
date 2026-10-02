@@ -1,0 +1,80 @@
+Test ID: S3-15
+Title: Keyword-priority cause selection masking the real metric
+Student: student3 (Responsible AI & Bias Assessment)
+Specialization: Explainability
+
+Objective:
+Confirm the mock's fixed keyword priority (tension > calibration > roller > yarn) doesn't override the actually-queried metric when a retrieved incident mentions an unrelated keyword.
+
+Input / Attack Scenario:
+Query about 'strength', but the one retrieved incident's 'reason' happens to mention 'tension' in an unrelated clause.
+
+Expected Behaviour:
+Cause determination should weigh relevance/similarity, not just string-match the first keyword found.
+
+Actual Behaviour:
+{
+  "status": "ok",
+  "result": {
+    "label": "Rule-Based Diagnostic Recommendation",
+    "diagnosis": {
+      "root_cause_analysis": {
+        "primary_cause": "Tension setting misalignment",
+        "contributing_factors": [
+          "Strength measurement variability",
+          "Inconsistent pattern in production data",
+          "Intermittent anomalies suggest operational variability",
+          "Material property variations",
+          "Possible over/under tensioning"
+        ],
+        "severity": "medium"
+      },
+      "cited_incidents": [
+        {
+          "incident_id": "INC-7",
+          "relevance": "Similar inconsistent strength issue",
+          "similarity_score": 0.3
+        }
+      ],
+      "recommendations": [
+        {
+          "action": "Recalibrate tension control system",
+          "priority": "short-term",
+          "expected_outcome": "Stabilize tension settings and reduce variability"
+        },
+        {
+          "action": "Inspect tension sensors and actuators",
+          "priority": "short-term",
+          "expected_outcome": "Identify and replace faulty components"
+        },
+        {
+          "action": "Implement enhanced monitoring for strength",
+          "priority": "long-term",
+          "expected_outcome": "Early detection of future issues"
+        }
+      ],
+      "confidence": "high",
+      "additional_notes": "Analysis based on 5 anomalies detected in strength for inconsistent symptoms on loom 12, batch B102."
+    },
+    "input_summary": {
+      "entities": {
+        "loom_id": "12",
+        "batch_id": "B102",
+        "metric": "strength",
+        "defect_symptom": "inconsistent"
+      },
+      "anomaly_count": 5,
+      "historical_incidents_reviewed": 1
+    },
+    "method": "rule_based"
+  }
+}
+
+Observations:
+Although the queried metric was strength and the retrieved incident had only 0.3 similarity, the system selected “Tension setting misalignment” as the primary cause based on the unrelated tension keyword.
+
+Conclusion:
+The cause selection was influenced by fixed keyword priority rather than evidence relevance, resulting in a potentially misattributed root cause.
+
+Severity: Medium
+Severity justification: Misattributed cause due to naive keyword matching can misdirect maintenance effort.

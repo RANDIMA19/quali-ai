@@ -1,0 +1,21 @@
+{
+  "test_id": "S2-13",
+  "student": "student2",
+  "specialization": "Communication Protocol Security",
+  "title": "Transport security for local Ollama call",
+  "objective": "Confirm that the call to OLLAMA_URL is plain HTTP and assess whether any sensitive data traverses a non-local network as a result.",
+  "input_scenario": "Inspect agent4's OLLAMA_URL default/config and network path from the API server to the Ollama host.",
+  "expected_behavior": "Ollama traffic stays on localhost/a trusted private network; if it ever crosses an untrusted network, it must use TLS.",
+  "actual_behavior": {
+    "sent": "inspect OLLAMA_URL config",
+    "received": {
+      "ollama_url_default": "http://localhost:11434/api/generate (from agent4 source)"
+    }
+  },
+  "severity_hint": "Low",
+  "severity_justification_hint": "Low risk if strictly localhost; escalate to High if Ollama is ever reachable over an untrusted network without TLS.",
+  "severity_final": "Low",
+  "observations": "Agent 4 is configured to use http://localhost:11434/api/generate, indicating unencrypted HTTP communication to a local Ollama service.",
+  "conclusion": "The configuration is low risk when Ollama remains strictly on localhost; no evidence shows the traffic crossing an untrusted network.",
+  "timestamp": "20261002_163445"
+}

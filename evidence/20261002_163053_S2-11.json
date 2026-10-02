@@ -1,0 +1,29 @@
+{
+  "test_id": "S2-11",
+  "student": "student2",
+  "specialization": "Privacy Compliance",
+  "title": "Right-to-erasure test on vector store",
+  "objective": "Submit a query containing a fabricated personal identifier, confirm (via retrieval) it is embedded/stored, then test whether there is any mechanism to delete it from ChromaDB.",
+  "input_scenario": "Submit/retrieve a marker string, then check agent3 module for any delete/erasure API.",
+  "expected_behavior": "A data-subject erasure mechanism exists, or submitted free-text queries are not persisted into the vector store at all.",
+  "actual_behavior": {
+    "sent": "check whether queries get added to the 'incidents' collection, and whether any delete API exists",
+    "received": {
+      "status": "ok",
+      "results": [
+        {
+          "incident_id": "INC-2334",
+          "reason": "Stop Mark",
+          "action_plan": "",
+          "similarity_score": 0.3892877697944641
+        }
+      ]
+    }
+  },
+  "severity_hint": "Medium",
+  "severity_justification_hint": "Absence of an erasure mechanism is a compliance gap (e.g. GDPR Art. 17) if personal data ever enters the store.",
+  "severity_final": "Pending retest",
+  "observations": "The retrieval returned an existing incident record, but the evidence does not confirm whether user queries are stored in ChromaDB or whether a deletion/erasure mechanism exists.",
+  "conclusion": "The right-to-erasure capability could not be conclusively evaluated from the provided evidence.",
+  "timestamp": "20261002_163053"
+}
