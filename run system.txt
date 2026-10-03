@@ -1,0 +1,75 @@
+
+Starting The System
+
+Option 1: Automatic Startup (Recommended)
+Windows:
+
+start_system.bat
+
+
+Option 2: Manual Startup
+Terminal 1 - Start API:
+
+python api/main.py
+Terminal 2 - Start UI:
+
+streamlit run ui/app.py
+
+
+
+#USER prompts to test
+1. Normal query
+Why is Loom 12 producing inconsistent elongation in Batch B102?
+Expected: it extracts loom 12, batch B102, elongation and inconsistent. Anomalies are flagged, similar past incidents are cited, and a diagnosis with recommendations is returned.
+
+2. Different ID format
+Batch A505 has high tension on Loom-7
+Expected: loom 7, batch A505, tension and high are extracted, and a diagnosis follows. This checks that the hyphenated loom ID and the order of the words don't matter.
+
+
+3. Metric and symptom with a batch only
+Strength readings are inconsistent in Batch C201
+Expected: batch C201, strength and inconsistent. No loom, so loom_id is empty.
+
+4. Different metric and symptom
+Loom 3 shows fluctuating density in Batch D303
+Expected: loom 3, batch D303, density and fluctuating.
+
+5. Symptom word "poor"
+What's causing poor strength in Batch C201?
+Expected: batch C201, strength and poor. No loom.
+
+6. Batch ID without the word "batch"
+Why is B102 failing on Loom 4?
+Expected: loom 4 and batch B102 (found as a standalone ID). Metric and symptom are empty, so the system should still produce a response or ask for more detail.
+
+7. Short loom form
+L7 shows low tension
+Expected: loom 7, tension and low. No batch.
+
+8. Comma and a different symptom
+Investigate excessive elongation on Loom 9, Batch E606
+Expected: loom 9, batch E606, elongation and excessive.
+
+9. Different metric
+Loom 12 has irregular twist in Batch A205
+Expected: loom 12, batch A205, twist and irregular.
+
+10. No IDs at all
+Tension values are too high.
+Expected: tension and high only. The system should work with metric-level data or ask which loom or batch.
+
+Edge cases that should show weaknesses
+
+These are useful screenshots for your findings.
+
+11. False loom ID
+Why are all 12 units showing low strength?
+Expected by design: no loom. Likely actual: loom 12, because the "l" in "all" followed by 12 is read as a loom ID.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        looms in one query
+Loom 3 and Loom 4 both have elongation issues in Batch C301
+Expected by design: both looms. Likely actual: only one loom is returned, though batch C301 and elongation are found.
+
+13. Elastic-fabric metric
+Elastic recovery is dropping on Loom 2
+Expected by design: metric elastic recovery. Likely actual: loom 2 is found, but the metric is empty because the vocabulary doesn't include it.
