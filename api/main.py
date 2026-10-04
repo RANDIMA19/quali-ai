@@ -48,7 +48,7 @@ security = HTTPBearer()
 # Simple password hashing (SHA-256)
 def hash_password(password: str) -> str:
     """Hash password using SHA-256"""
-    return hashlib.sha256(password.encode()).hexdigest()
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify password against hash"""
@@ -58,7 +58,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 users_db = {
     "qa_officer": {
         "username": "qa_officer",
-        "hashed_password": hash_password("qa123"),
+        "hashed_password": hash_password("qa1234"),
         "roles": ["qa_officer"]
     },
     "technician": {
@@ -215,7 +215,7 @@ async def login(user_login: UserLogin):
     Authenticate user and return JWT token
     
     Demo credentials:
-    - qa_officer / qa123
+    - qa_officer / qa1234
     - technician / tech123  
     - manager / mgr123
     """

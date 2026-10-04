@@ -22,7 +22,7 @@ def test_login():
     # Test with qa_officer
     response = requests.post(f"{BASE_URL}/token", json={
         "username": "qa_officer",
-        "password": "qa123"
+        "password": "qa1234"
     })
     
     print(f"Status: {response.status_code}")
@@ -58,7 +58,7 @@ def test_role_protected_endpoints():
     
     # Test admin endpoint with different users
     users = [
-        ("qa_officer", "qa123"),
+        ("qa_officer", "qa1234"),
         ("technician", "tech123"),
         ("manager", "mgr123")
     ]
@@ -94,7 +94,7 @@ def test_input_sanitization():
     # Get token first
     token_response = requests.post(f"{BASE_URL}/token", json={
         "username": "qa_officer",
-        "password": "qa123"
+        "password": "qa1234"
     })
     
     if token_response.status_code != 200:

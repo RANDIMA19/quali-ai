@@ -358,7 +358,7 @@ def render_login_page():
         st.markdown("---")
         st.info("**Demo Credentials:**")
         st.code("""
-qa_officer / qa123
+qa_officer / qa1234
 technician / tech123
 manager / mgr123
 """)

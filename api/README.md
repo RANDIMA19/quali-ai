@@ -34,7 +34,7 @@ uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
 Authenticate user and receive JWT token.
 
 **Demo Credentials:**
-- `qa_officer` / `qa123`
+- `qa_officer` / `qa1234`
 - `technician` / `tech123`
 - `manager` / `mgr123`
 
@@ -42,7 +42,7 @@ Authenticate user and receive JWT token.
 ```json
 {
   "username": "qa_officer",
-  "password": "qa123"
+  "password": "qa1234"
 }
 ```
 
@@ -174,7 +174,7 @@ The API returns appropriate HTTP status codes:
 # Get token
 curl -X POST "http://localhost:8000/token" \
   -H "Content-Type: application/json" \
-  -d '{"username": "qa_officer", "password": "qa123"}'
+  -d '{"username": "qa_officer", "password": "qa1234"}'
 
 # Use token to diagnose
 curl -X POST "http://localhost:8000/diagnose" \
